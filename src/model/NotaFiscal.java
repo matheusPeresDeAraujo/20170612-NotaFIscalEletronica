@@ -11,10 +11,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-@Entity(name="nf")
+@Entity(name="Nf")
 public class NotaFiscal {
 	
 	@Id
@@ -42,9 +43,9 @@ public class NotaFiscal {
     @JoinColumn(name = "destinatario_id", nullable=false)
 	private Pessoa destinatario;
 	
-	@OneToMany(mappedBy = "nf", 
-			 cascade = CascadeType.ALL, 
-			 orphanRemoval = true)
+	@ManyToMany(cascade ={ 
+			CascadeType.PERSIST, 
+			CascadeType.MERGE})
 	private List<Item> itens = new ArrayList<>();
 	
 	//private int quantItens; - calculado

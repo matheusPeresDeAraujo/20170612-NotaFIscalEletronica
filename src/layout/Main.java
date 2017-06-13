@@ -46,7 +46,6 @@ public class Main {
 		item.setDescricao("Nada a declarar");
 		item.setQuant(3);
 		item.setValor(500.03);
-		item.setNf(nf);
 		itens.add(item);
 		
 		

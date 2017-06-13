@@ -1,13 +1,13 @@
 package model;
 
-import javax.persistence.CascadeType;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Item {
@@ -27,9 +27,9 @@ public class Item {
 	
 	private int quant;// maior que zero
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id", nullable=false)
-	private NotaFiscal nf;
+	@ManyToMany(mappedBy = "itens")
+	private List<NotaFiscal> nfs = new ArrayList<>();
+
 
 	//private float valorTotal; - calculado
 	
@@ -48,14 +48,6 @@ public class Item {
 
 	public long getId() {
 		return id;
-	}
-
-	public NotaFiscal getNf() {
-		return nf;
-	}
-
-	public void setNf(NotaFiscal nf) {
-		this.nf = nf;
 	}
 
 	public int getCodigo() {
