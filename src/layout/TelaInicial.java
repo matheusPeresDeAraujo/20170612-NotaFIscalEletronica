@@ -55,6 +55,7 @@ public class TelaInicial {
 				JTextField Emitente = new JTextField();
 				JTextField Destinatario = new JTextField();
 				JTextField Informacoes = new JTextField();
+				
 				JComponent[] inputs = new JComponent[] {
 				new JLabel("Numero"),
 				Numero,
@@ -71,19 +72,17 @@ public class TelaInicial {
 
 				int result = JOptionPane.showConfirmDialog(null, inputs, "Insira as informações!", JOptionPane.PLAIN_MESSAGE);
 
-				if (Numero.getText() == null || Numero.getText().equals("") || DateEmissao.getText() == null || DateEmissao.getText().equals(""))
+				if (Numero.getText() == null || Numero.getText().equals("") || DateEmissao.getText() == null || DateEmissao.getText().equals("") || DateOperacao.getText() == null || DateOperacao.getText().equals("") || Emitente.getText() == null || Emitente.getText().equals("") || Destinatario.getText() == null || Destinatario.getText().equals(""))
 			           return;
-				for(int i = 0; i < DateEmissao.getText().length(); i++){
-					char t = DateEmissao.getText().charAt(i);
-					if(!Character.isDigit(t) || Character.isLetter(t)){
-						JOptionPane.showMessageDialog(null, "Informe valores interios para o campo Idade","Error", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-				}
+				
 					String numeroText = ""+Numero.getText(); 
-					Integer dataEmissaoText = Integer.parseInt(Numero.getText());
+					String dateEmissaoText = ""+DateEmissao.getText(); 
+					String dateOperacaoText = ""+DateOperacao.getText(); 
+					String emitenteText = ""+Emitente.getText(); 
+					String destinatarioText = ""+Destinatario.getText(); 
+					String informacoesText = ""+Informacoes.getText(); 
 					
-					model.addRow(new Object[]{numeroText, dataEmissaoText});
+					model.addRow(new Object[]{numeroText, dateEmissaoText,dateOperacaoText,emitenteText,destinatarioText,informacoesText});
 				
 			}
 		};
