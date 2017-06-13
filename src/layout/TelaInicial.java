@@ -49,29 +49,41 @@ public class TelaInicial {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				JTextField Name = new JTextField();
-				JTextField Idade = new JTextField();
+				JTextField Numero = new JTextField();
+				JTextField DateEmissao = new JTextField();
+				JTextField DateOperacao = new JTextField();
+				JTextField Emitente = new JTextField();
+				JTextField Destinatario = new JTextField();
+				JTextField Informacoes = new JTextField();
 				JComponent[] inputs = new JComponent[] {
-				new JLabel("Nome"),
-				Name,
-				new JLabel("Idade"),
-				Idade};
+				new JLabel("Numero"),
+				Numero,
+				new JLabel("DateEmissao"),
+				DateEmissao,
+				new JLabel("DateOperacao"),
+				DateOperacao,
+				new JLabel("Emitente"),
+				Emitente,
+				new JLabel("Destinatario"),
+				Destinatario,
+				new JLabel("Informacoes"),
+				Informacoes};
 
 				int result = JOptionPane.showConfirmDialog(null, inputs, "Insira as informações!", JOptionPane.PLAIN_MESSAGE);
 
-				if (Name.getText() == null || Name.getText().equals("") || Idade.getText() == null || Idade.getText().equals(""))
+				if (Numero.getText() == null || Numero.getText().equals("") || DateEmissao.getText() == null || DateEmissao.getText().equals(""))
 			           return;
-				for(int i = 0; i < Idade.getText().length(); i++){
-					char t = Idade.getText().charAt(i);
+				for(int i = 0; i < DateEmissao.getText().length(); i++){
+					char t = DateEmissao.getText().charAt(i);
 					if(!Character.isDigit(t) || Character.isLetter(t)){
 						JOptionPane.showMessageDialog(null, "Informe valores interios para o campo Idade","Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 				}
-					String nomeText = ""+Name.getText(); 
-					Integer idadeText = Integer.parseInt(Idade.getText());
+					String numeroText = ""+Numero.getText(); 
+					Integer dataEmissaoText = Integer.parseInt(Numero.getText());
 					
-					model.addRow(new Object[]{nomeText, idadeText});
+					model.addRow(new Object[]{numeroText, dataEmissaoText});
 				
 			}
 		};
