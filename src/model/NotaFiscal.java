@@ -18,9 +18,9 @@ public class NotaFiscal {
 	
 	@Column(unique=true, nullable=false)
 	private long notaFiscalNumero;
-	// Modelo 1-A: valor somente leitura
+	
 	private String modelo = "Modelo 1-A";
-	//valor somente leitura "Venda"
+	
 	private String natureza = "Venda";
 
 	@Column(nullable=false)
@@ -57,6 +57,10 @@ public class NotaFiscal {
 		// TODO Auto-generated constructor stub
 	}
 
+	public long getId() {
+		return id;
+	}
+	
 	public long getNotaFiscalNumero() {
 		return notaFiscalNumero;
 	}
