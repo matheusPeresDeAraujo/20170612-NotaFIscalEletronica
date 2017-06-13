@@ -1,9 +1,13 @@
 package model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Item {
@@ -19,13 +23,17 @@ public class Item {
 	private String descricao;
 
 	@Column(scale=5)//maior que zero
-	private float valor;
+	private double valor;
 	
 	private int quant;// maior que zero
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id", nullable=false)
+	private NotaFiscal nf;
 
 	//private float valorTotal; - calculado
 	
-	public Item(int codigo, String descricao, float valor, int quant) {
+	public Item(int codigo, String descricao, double valor, int quant) {
 		super();
 		this.codigo = codigo;
 		this.descricao = descricao;
@@ -33,8 +41,21 @@ public class Item {
 		this.quant = quant;
 	}
 
+	public Item() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public long getId() {
 		return id;
+	}
+
+	public NotaFiscal getNf() {
+		return nf;
+	}
+
+	public void setNf(NotaFiscal nf) {
+		this.nf = nf;
 	}
 
 	public int getCodigo() {
@@ -53,11 +74,11 @@ public class Item {
 		this.descricao = descricao;
 	}
 
-	public float getValor() {
+	public double getValor() {
 		return valor;
 	}
 
-	public void setValor(float valor) {
+	public void setValor(double valor) {
 		this.valor = valor;
 	}
 

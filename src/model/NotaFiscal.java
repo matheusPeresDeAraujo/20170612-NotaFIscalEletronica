@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-@Entity
+@Entity(name="nf")
 public class NotaFiscal {
 	
 	@Id
@@ -29,9 +34,17 @@ public class NotaFiscal {
 	@Column(unique=true, nullable=false)//Não pode ser mais que 5 dias após operacao
 	private Date dataEmissao;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "emitente_id", nullable=false)
 	private Pessoa emitente;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "destinatario_id", nullable=false)
 	private Pessoa destinatario;
 	
+	@OneToMany(mappedBy = "nf", 
+			 cascade = CascadeType.ALL, 
+			 orphanRemoval = true)
 	private List<Item> itens = new ArrayList<>();
 	
 	//private int quantItens; - calculado
