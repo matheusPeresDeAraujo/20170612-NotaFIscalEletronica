@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Tue Jun 13 10:01:42 BRT 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.13.1.1 - (1765088): instance a816c00e-015c-a18b-a3aa-000002a430a8 
+Tue Jun 13 10:07:45 BRT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.13.1.1 - (1765088): instance a816c00e-015c-a191-2c97-00000277ca58 
 on database directory /home/matheus/20170612-NotaFIscalEletronica/20170516_atividade with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 Loaded from file:/home/matheus/20170612-NotaFIscalEletronica/libs/derby.jar
 java.vendor=Oracle Corporation
