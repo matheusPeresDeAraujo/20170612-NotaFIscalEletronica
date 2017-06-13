@@ -25,10 +25,14 @@ public class TelaInicial {
 		
 		
 		// Tabela de visualização de notas fiscais
-		Object[] colunas = new String[]{"Nome","Idade"};
+		Object[] colunas = new String[]{"Numero","Date Emissão","Date Operacao","Emitente","Destinatario"};
 
 		Object[][] dados = new Object[][]{
-		       {"Nome1", 1L},{"Nome2",2L},{"Nome3",3L},{"Nome4",4L},{"Nome5",5L}
+		       {"100", "2017-06-13", "2017-06-13", "Matheus", "Empresa"},
+		       {"200", "2017-06-13", "2017-06-13", "Matheus", "Empresa"},
+		       {"300", "2017-06-13", "2017-06-13", "Matheus", "Empresa"},
+		       {"400", "2017-06-13", "2017-06-13", "Matheus", "Empresa"},
+		       {"500", "2017-06-13", "2017-06-13", "Matheus", "Empresa"}
 		};
 
 		DefaultTableModel model = new DefaultTableModel(dados , colunas );
@@ -157,7 +161,7 @@ public class TelaInicial {
 		frame.add(telaInicial);
 		frame.getContentPane().add(toolbar, BorderLayout.PAGE_START);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(250, 200);
+		frame.setSize(500, 200);
 //		frame.pack();
 		frame.setVisible(true);
 	}
