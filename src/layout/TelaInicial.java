@@ -3,6 +3,8 @@ package layout;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -12,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,6 +47,9 @@ public class TelaInicial {
 		JScrollPane  painelTabela = new JScrollPane();
 		painelTabela.setViewportView(tabela);
 				
+		
+		JFrame frame = new JFrame("null");
+		
 		
 		ActionListener action1 = new ActionListener() {
 			
@@ -135,6 +141,18 @@ public class TelaInicial {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				JFrame sobre = new JFrame("Sobre");
+				sobre.setLayout(new BorderLayout());
+				sobre.add(new JLabel("Teste"));
+				sobre.setSize(500, 200);
+				sobre.setVisible(true);
+				sobre.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+							frame.setEnabled(true);
+					}
+				});
+				frame.setEnabled(true);
 				
 			}
 		};
@@ -160,10 +178,21 @@ public class TelaInicial {
 		JMenu sobre = new JMenu("Sobre");
 		
 		
+		sobre.addActionListener(action5);
+		
+		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(arquivo);
 		menuBar.add(cadastro);
 		menuBar.add(sobre);
+		
+		
+		JMenuItem sair = new JMenuItem("Sair");
+		JMenuItem adicionar = new JMenuItem("Adicionar");
+		
+		
+		arquivo.add(adicionar);
+		arquivo.add(sair);
 		
 		
 		JToolBar toolbar = new JToolBar("Aplicações");
@@ -180,7 +209,6 @@ public class TelaInicial {
 		telaInicial.add(painelTabela);
 		
 		
-		JFrame frame = new JFrame("null");
 		frame.setLayout(new BorderLayout());
 		frame.add(telaInicial);
 		frame.setJMenuBar(menuBar);
