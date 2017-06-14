@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -153,6 +155,17 @@ public class TelaInicial {
 		btn5.addActionListener(action5);
 		
 		
+		JMenu arquivo = new JMenu("Arquivo");
+		JMenu cadastro = new JMenu("Cadastro");
+		JMenu sobre = new JMenu("Sobre");
+		
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.add(arquivo);
+		menuBar.add(cadastro);
+		menuBar.add(sobre);
+		
+		
 		JToolBar toolbar = new JToolBar("Aplicações");
 		toolbar.setFloatable(false);
 		toolbar.add(btn1);
@@ -170,6 +183,7 @@ public class TelaInicial {
 		JFrame frame = new JFrame("null");
 		frame.setLayout(new BorderLayout());
 		frame.add(telaInicial);
+		frame.setJMenuBar(menuBar);
 		frame.getContentPane().add(toolbar, BorderLayout.PAGE_START);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500, 200);
