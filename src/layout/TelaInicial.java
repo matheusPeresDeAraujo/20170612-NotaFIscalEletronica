@@ -152,7 +152,7 @@ public class TelaInicial {
 							frame.setEnabled(true);
 					}
 				});
-				frame.setEnabled(true);
+				frame.setEnabled(false);
 				
 			}
 		};
