@@ -30,14 +30,14 @@ public class TelaInicial {
 		
 		
 		// Tabela de visualização de notas fiscais
-		Object[] colunas = new String[]{"Numero","Date Emissão","Date Operacao","Emitente","Destinatario"};
+		Object[] colunas = new String[]{"Numero","Date Emissão","CNPJ/CPF","Razão Social/Nome","Quantidade de Itens","Valor Total"};
 
 		Object[][] dados = new Object[][]{
-		       {"100", "2017-06-13", "2017-06-13", "Matheus", "Empresa"},
-		       {"200", "2017-06-13", "2017-06-13", "Matheus", "Empresa"},
-		       {"300", "2017-06-13", "2017-06-13", "Matheus", "Empresa"},
-		       {"400", "2017-06-13", "2017-06-13", "Matheus", "Empresa"},
-		       {"500", "2017-06-13", "2017-06-13", "Matheus", "Empresa"}
+		       {"100", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
+		       {"200", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
+		       {"300", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
+		       {"400", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
+		       {"500", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"}
 		};
 
 		DefaultTableModel model = new DefaultTableModel(dados , colunas );
@@ -49,6 +49,8 @@ public class TelaInicial {
 				
 		
 		JFrame frame = new JFrame("null");
+		JFrame sobreFrame = new JFrame("Sobre");
+		JFrame cadastroFrame = new JFrame("Cadastro");
 		
 		
 		ActionListener action1 = new ActionListener() {
@@ -132,6 +134,23 @@ public class TelaInicial {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+
+				JPanel cadastroPanel = new JPanel();
+				cadastroPanel.setLayout(new BoxLayout(cadastroPanel, BoxLayout.Y_AXIS));
+				cadastroPanel.add(new JLabel("Disciplina: Desenvolvimento Orientado à Objetos e Persistência"));;
+				
+				
+				cadastroFrame.setLayout(new BorderLayout());
+				cadastroFrame.add(cadastroPanel);
+				cadastroFrame.setSize(500, 200);
+				cadastroFrame.setVisible(true);
+				cadastroFrame.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+							frame.setEnabled(true);
+					}
+				});
+				frame.setEnabled(false);
 				
 			}
 		};
@@ -141,12 +160,18 @@ public class TelaInicial {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				JFrame sobre = new JFrame("Sobre");
-				sobre.setLayout(new BorderLayout());
-				sobre.add(new JLabel("Teste"));
-				sobre.setSize(500, 200);
-				sobre.setVisible(true);
-				sobre.addWindowListener(new WindowAdapter() {
+				JPanel sobrePanel = new JPanel();
+				sobrePanel.setLayout(new BoxLayout(sobrePanel, BoxLayout.Y_AXIS));
+				sobrePanel.add(new JLabel("Disciplina: Desenvolvimento Orientado à Objetos e Persistência"));
+				sobrePanel.add(new JLabel("<HTML>Equipe: Matheus Peres de Araujo <BR> Alessandro <BR> Frederico</HTML>"));
+				sobrePanel.add(new JLabel("Trabalho desenvolvido no intuito de muitas coisa."));
+				
+				
+				sobreFrame.setLayout(new BorderLayout());
+				sobreFrame.add(sobrePanel);
+				sobreFrame.setSize(500, 200);
+				sobreFrame.setVisible(true);
+				sobreFrame.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
 							frame.setEnabled(true);
