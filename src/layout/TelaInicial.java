@@ -135,9 +135,38 @@ public class TelaInicial {
 			public void actionPerformed(ActionEvent e) {
 				
 
+				JTextField numero = new JTextField();
+				JTextField modelo = new JTextField();
+				JTextField natureza = new JTextField();
+				JTextField dataOperacao = new JTextField();
+				JTextField dataEmissao = new JTextField();
+				
+				
+				numero.setColumns(10);
+				modelo.setColumns(10);
+				natureza.setColumns(10);
+				dataOperacao.setColumns(10);
+				dataEmissao.setColumns(10);
+				
+				
+				JPanel cadastroPanelNf = new JPanel();
+				cadastroPanelNf.setLayout(new BoxLayout(cadastroPanelNf, BoxLayout.X_AXIS));
+				cadastroPanelNf.add(new JLabel("Numero NF: "));
+				cadastroPanelNf.add(numero);
+				cadastroPanelNf.add(new JLabel("Modelo: "));
+				cadastroPanelNf.add(modelo);
+				cadastroPanelNf.add(new JLabel("Natureza"));
+				cadastroPanelNf.add(natureza);
+				cadastroPanelNf.add(new JLabel("Data Operaçaõ: "));
+				cadastroPanelNf.add(dataOperacao);
+				cadastroPanelNf.add(new JLabel("Data Emissão: "));
+				cadastroPanelNf.add(dataEmissao);	
+				
+				
 				JPanel cadastroPanel = new JPanel();
-				cadastroPanel.setLayout(new BoxLayout(cadastroPanel, BoxLayout.Y_AXIS));
-				cadastroPanel.add(new JLabel("Disciplina: Desenvolvimento Orientado à Objetos e Persistência"));;
+				cadastroPanel.add(cadastroPanelNf);
+				cadastroPanel.add(new JButton("Gravar"));
+				cadastroPanel.add(new JButton("Limpar Campos"));
 				
 				
 				cadastroFrame.setLayout(new BorderLayout());
