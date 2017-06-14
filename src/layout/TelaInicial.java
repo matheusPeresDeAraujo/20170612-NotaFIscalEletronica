@@ -175,7 +175,7 @@ public class TelaInicial {
 		
 		JMenu arquivo = new JMenu("Arquivo");
 		JMenu cadastro = new JMenu("Cadastro");
-		JMenu sobre = new JMenu("Sobre");
+		JMenuItem sobre = new JMenuItem("Sobre");
 		
 		
 		sobre.addActionListener(action5);
