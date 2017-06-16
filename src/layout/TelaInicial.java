@@ -49,6 +49,25 @@ public class TelaInicial {
 		painelTabela.setViewportView(tabela);
 				
 		
+		//Tabela Item
+		Object[] colunasItem = new String[]{"Codigo","Descricao","Preco","Quantidade","Valor Total"};
+
+		Object[][] dadosItem = new Object[][]{
+		       {"100", "Item 1", "100.00", "5", "500.00"},
+		       {"200", "Item 2", "100.00", "5", "500.00"},
+		       {"300", "Item 3", "100.00", "5", "500.00"},
+		       {"400", "Item 4", "100.00", "5", "500.00"},
+		       {"500", "Item 5", "100.00", "5", "500.00"}
+		};
+
+		DefaultTableModel modelItem = new DefaultTableModel(dadosItem , colunasItem );
+		JTable tabelaItem = new JTable();
+		tabelaItem.setModel(modelItem);
+		tabelaItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane  painelTabelaItem = new JScrollPane();
+		painelTabelaItem.setViewportView(tabelaItem);
+		
+		
 		JFrame frame = new JFrame("null");
 		JFrame sobreFrame = new JFrame("Sobre");
 		JFrame cadastroFrame = new JFrame("Cadastro");
@@ -126,6 +145,17 @@ public class TelaInicial {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				if (tabelaItem.getSelectedRow()==-1){
+					JOptionPane.showMessageDialog(null, "Selecione o registro a ser apagado","Alerta", JOptionPane.PLAIN_MESSAGE);
+					return;
+				}
+				Object[] options = {"Sim", "Não"};
+				int n = JOptionPane.showOptionDialog(null, "Deseja realmente apagar o registro: "+tabelaItem.getSelectedRow(), "Alerta", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, options,options[0] );
+				
+				if (n == 1){
+					return;
+				}
+				modelItem.removeRow(tabelaItem.getSelectedRow());
 				
 			}
 		};
@@ -152,6 +182,9 @@ public class TelaInicial {
 				JTextField inscricaoDestinatario = new JTextField();
 				JTextField estadoDestinatario = new JTextField();
 				
+				JButton adicionarItem = new JButton("Adicionar");
+				JButton removerItem = new JButton("Remover");
+				
 				
 				numero.setColumns(5);
 				modelo.setColumns(10);
@@ -169,23 +202,8 @@ public class TelaInicial {
 				inscricaoDestinatario.setColumns(20);
 				estadoDestinatario.setColumns(10);
 				
-				
-				Object[] colunasItem = new String[]{"Codigo","Descricao","Preco","Quantidade","Valor Total"};
-
-				Object[][] dadosItem = new Object[][]{
-				       {"100", "Item 1", "100.00", "5", "500.00"},
-				       {"200", "Item 2", "100.00", "5", "500.00"},
-				       {"300", "Item 3", "100.00", "5", "500.00"},
-				       {"400", "Item 4", "100.00", "5", "500.00"},
-				       {"500", "Item 5", "100.00", "5", "500.00"}
-				};
-
-				DefaultTableModel modelItem = new DefaultTableModel(dadosItem , colunasItem );
-				JTable tabelaItem = new JTable();
-				tabelaItem.setModel(modelItem);
-				tabelaItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				JScrollPane  painelTabelaItem = new JScrollPane();
-				painelTabelaItem.setViewportView(tabelaItem);
+				adicionarItem.addActionListener(action3);
+				removerItem.addActionListener(action3);
 				
 				
 				JPanel cadastroPanelNf = new JPanel();
@@ -234,6 +252,8 @@ public class TelaInicial {
 				cadastroPanel.add(cadastroPanelEmitente);
 				cadastroPanel.add(cadastroPanelDestinatario);
 				cadastroPanel.add(painelTabelaItem);
+				cadastroPanel.add(adicionarItem);
+				cadastroPanel.add(removerItem);
 				cadastroPanel.add(new JButton("Gravar"));
 				cadastroPanel.add(new JButton("Limpar Campos"));
 				
