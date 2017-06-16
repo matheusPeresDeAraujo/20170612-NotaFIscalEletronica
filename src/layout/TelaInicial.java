@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
@@ -186,6 +187,10 @@ public class TelaInicial {
 				JButton adicionarItem = new JButton("Adicionar");
 				JButton removerItem = new JButton("Remover");
 				
+				JTextField quantidadeItens = new JTextField();
+				JTextField valorTotal = new JTextField();
+				JTextArea informacoes = new JTextArea();
+				
 				
 				numero.setColumns(5);
 				modelo.setColumns(10);
@@ -207,47 +212,80 @@ public class TelaInicial {
 				removerItem.addActionListener(action3);
 				
 				
+				JPanel cadastroPanelNf1 = new JPanel();
+				cadastroPanelNf1.setLayout(new BoxLayout(cadastroPanelNf1, BoxLayout.X_AXIS));
+				cadastroPanelNf1.add(new JLabel("   Numero NF: "));
+				cadastroPanelNf1.add(numero);
+				cadastroPanelNf1.add(new JLabel("   Modelo: "));
+				cadastroPanelNf1.add(modelo);
+				cadastroPanelNf1.add(new JLabel("   Natureza: "));
+				cadastroPanelNf1.add(natureza);
+				
+				
+				JPanel cadastroPanelNf2 = new JPanel();
+				cadastroPanelNf2.setLayout(new BoxLayout(cadastroPanelNf2, BoxLayout.X_AXIS));
+				cadastroPanelNf2.add(new JLabel("   Data Operação: "));
+				cadastroPanelNf2.add(dataOperacao);
+				cadastroPanelNf2.add(new JLabel("   Data Emissão: "));
+				cadastroPanelNf2.add(dataEmissao);
+				
+				
 				JPanel cadastroPanelNf = new JPanel();
 				cadastroPanelNf.setLayout(new BoxLayout(cadastroPanelNf, BoxLayout.Y_AXIS));
 				//cadastroPanelNf.setLayout(new FlowLayout(FlowLayout.LEFT));
-				cadastroPanelNf.add(new JLabel("Numero NF: "));
-				cadastroPanelNf.add(numero);
-				cadastroPanelNf.add(new JLabel("Modelo: "));
-				cadastroPanelNf.add(modelo);
-				cadastroPanelNf.add(new JLabel("Natureza"));
-				cadastroPanelNf.add(natureza);
-				cadastroPanelNf.add(new JLabel("Data Operação: "));
-				cadastroPanelNf.add(dataOperacao);
-				cadastroPanelNf.add(new JLabel("Data Emissão: "));
-				cadastroPanelNf.add(dataEmissao);	
+				cadastroPanelNf.add(cadastroPanelNf1);
+				cadastroPanelNf.add(cadastroPanelNf2);	
+				cadastroPanelNf.add(new JLabel(" "));
+				
+				
+				JPanel cadastroPanelEmitente1 = new JPanel();
+				cadastroPanelEmitente1.setLayout(new BoxLayout(cadastroPanelEmitente1, BoxLayout.X_AXIS));
+				cadastroPanelEmitente1.add(new JLabel("   CPF/CNPJ: "));
+				cadastroPanelEmitente1.add(identificacaoEmitente);
+				cadastroPanelEmitente1.add(new JLabel("   Inscrição Estadual: "));
+				cadastroPanelEmitente1.add(inscricaoEmitente);
+				cadastroPanelEmitente1.add(new JLabel("   Estado: "));
+				cadastroPanelEmitente1.add(estadoEmitente);
+				
+				
+				JPanel cadastroPanelEmitente2 = new JPanel();
+				cadastroPanelEmitente2.setLayout(new BoxLayout(cadastroPanelEmitente2, BoxLayout.X_AXIS));
+				cadastroPanelEmitente2.add(new JLabel("   Nome: "));
+				cadastroPanelEmitente2.add(nomeEmitente);
 				
 				
 				JPanel cadastroPanelEmitente = new JPanel();
 				cadastroPanelEmitente.setBorder(BorderFactory.createTitledBorder(":::::::EMITENTE::::::"));
 				cadastroPanelEmitente.setLayout(new BoxLayout(cadastroPanelEmitente, BoxLayout.Y_AXIS));
 				cadastroPanelEmitente.add(new JLabel(" "));
-				cadastroPanelEmitente.add(new JLabel("CPF/CNPJ: "));
-				cadastroPanelEmitente.add(identificacaoEmitente);
-				cadastroPanelEmitente.add(new JLabel("Nome: "));
-				cadastroPanelEmitente.add(nomeEmitente);
-				cadastroPanelEmitente.add(new JLabel("Inscrição Estadual: "));
-				cadastroPanelEmitente.add(inscricaoEmitente);
-				cadastroPanelEmitente.add(new JLabel("Estado: "));
-				cadastroPanelEmitente.add(estadoEmitente);
+				cadastroPanelEmitente.add(cadastroPanelEmitente2);
+				cadastroPanelEmitente.add(cadastroPanelEmitente1);
+				cadastroPanelEmitente.add(new JLabel(" "));
+				
+				
+				JPanel cadastroPanelDestinatario1 = new JPanel();
+				cadastroPanelDestinatario1.setLayout(new BoxLayout(cadastroPanelDestinatario1, BoxLayout.X_AXIS));
+				cadastroPanelDestinatario1.add(new JLabel("   CPF/CNPJ: "));
+				cadastroPanelDestinatario1.add(identificacaoDestinatario);
+				cadastroPanelDestinatario1.add(new JLabel("   Inscrição Estadual: "));
+				cadastroPanelDestinatario1.add(inscricaoDestinatario);
+				cadastroPanelDestinatario1.add(new JLabel("   Estado: "));
+				cadastroPanelDestinatario1.add(estadoDestinatario);
+				
+				
+				JPanel cadastroPanelDestinatario2 = new JPanel();
+				cadastroPanelDestinatario2.setLayout(new BoxLayout(cadastroPanelDestinatario2, BoxLayout.X_AXIS));
+				cadastroPanelDestinatario2.add(new JLabel("   Nome: "));
+				cadastroPanelDestinatario2.add(nomeDestinatario);
 
 				
 				JPanel cadastroPanelDestinatario = new JPanel();
 				cadastroPanelDestinatario.setBorder(BorderFactory.createTitledBorder(":::::DESTINATARIO::::::"));
 				cadastroPanelDestinatario.setLayout(new BoxLayout(cadastroPanelDestinatario, BoxLayout.Y_AXIS));
 				cadastroPanelDestinatario.add(new JLabel(" "));
-				cadastroPanelDestinatario.add(new JLabel("CPF/CNPJ: "));
-				cadastroPanelDestinatario.add(identificacaoDestinatario);
-				cadastroPanelDestinatario.add(new JLabel("Nome: "));
-				cadastroPanelDestinatario.add(nomeDestinatario);
-				cadastroPanelDestinatario.add(new JLabel("Inscrição Estadual: "));
-				cadastroPanelDestinatario.add(inscricaoDestinatario);
-				cadastroPanelDestinatario.add(new JLabel("Estado: "));
-				cadastroPanelDestinatario.add(estadoDestinatario);
+				cadastroPanelDestinatario.add(cadastroPanelDestinatario1);
+				cadastroPanelDestinatario.add(cadastroPanelDestinatario2);
+				cadastroPanelDestinatario.add(new JLabel(" "));
 				
 				
 				JPanel cadastroPanelItemOpcoes = new JPanel();
@@ -264,12 +302,26 @@ public class TelaInicial {
 				cadastroPanelItem.add(cadastroPanelItemOpcoes);
 				
 				
+				JPanel cadastroPanelNff = new JPanel();
+				cadastroPanelNff.setLayout(new BoxLayout(cadastroPanelNff, BoxLayout.Y_AXIS));
+				cadastroPanelNff.add(new JLabel("   Quantidade de itens: "));
+				cadastroPanelNff.add(quantidadeItens);
+				cadastroPanelNff.add(new JLabel("   Valor Total: "));
+				cadastroPanelNff.add(valorTotal);
+				cadastroPanelNff.add(new JLabel("   Informações: "));
+				cadastroPanelNff.add(informacoes);
+				
+				
 				JPanel cadastroPanel = new JPanel();
 				cadastroPanel.setLayout(new BoxLayout(cadastroPanel, BoxLayout.Y_AXIS));
+				cadastroPanel.add(new JLabel(" "));
+				cadastroPanel.add(new JLabel(":::::NOTA FISCAL ELETRÔNICA:::::"));
+				cadastroPanel.add(new JLabel(" "));
 				cadastroPanel.add(cadastroPanelNf);
 				cadastroPanel.add(cadastroPanelEmitente);
 				cadastroPanel.add(cadastroPanelDestinatario);
 				cadastroPanel.add(cadastroPanelItem);
+				cadastroPanel.add(cadastroPanelNff);
 				cadastroPanel.add(new JButton("Gravar"));
 				cadastroPanel.add(new JButton("Limpar Campos"));
 				
