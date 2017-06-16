@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -222,8 +223,9 @@ public class TelaInicial {
 				
 				
 				JPanel cadastroPanelEmitente = new JPanel();
+				cadastroPanelEmitente.setBorder(BorderFactory.createTitledBorder(":::::::EMITENTE::::::"));
 				cadastroPanelEmitente.setLayout(new BoxLayout(cadastroPanelEmitente, BoxLayout.Y_AXIS));
-				cadastroPanelEmitente.add(new JLabel(":::::::EMITENTE::::::"));
+				cadastroPanelEmitente.add(new JLabel(" "));
 				cadastroPanelEmitente.add(new JLabel("CPF/CNPJ: "));
 				cadastroPanelEmitente.add(identificacaoEmitente);
 				cadastroPanelEmitente.add(new JLabel("Nome: "));
@@ -235,8 +237,9 @@ public class TelaInicial {
 
 				
 				JPanel cadastroPanelDestinatario = new JPanel();
+				cadastroPanelDestinatario.setBorder(BorderFactory.createTitledBorder(":::::DESTINATARIO::::::"));
 				cadastroPanelDestinatario.setLayout(new BoxLayout(cadastroPanelDestinatario, BoxLayout.Y_AXIS));
-				cadastroPanelDestinatario.add(new JLabel(":::::::DESTINATARIO::::::"));
+				cadastroPanelDestinatario.add(new JLabel(" "));
 				cadastroPanelDestinatario.add(new JLabel("CPF/CNPJ: "));
 				cadastroPanelDestinatario.add(identificacaoDestinatario);
 				cadastroPanelDestinatario.add(new JLabel("Nome: "));
@@ -245,6 +248,7 @@ public class TelaInicial {
 				cadastroPanelDestinatario.add(inscricaoDestinatario);
 				cadastroPanelDestinatario.add(new JLabel("Estado: "));
 				cadastroPanelDestinatario.add(estadoDestinatario);
+				
 				
 				JPanel cadastroPanel = new JPanel();
 				cadastroPanel.setLayout(new BoxLayout(cadastroPanel, BoxLayout.Y_AXIS));
