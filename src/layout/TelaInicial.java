@@ -170,6 +170,24 @@ public class TelaInicial {
 				estadoDestinatario.setColumns(10);
 				
 				
+				Object[] colunasItem = new String[]{"Codigo","Descricao","Preco","Quantidade","Valor Total"};
+
+				Object[][] dadosItem = new Object[][]{
+				       {"100", "Item 1", "100.00", "5", "500.00"},
+				       {"200", "Item 2", "100.00", "5", "500.00"},
+				       {"300", "Item 3", "100.00", "5", "500.00"},
+				       {"400", "Item 4", "100.00", "5", "500.00"},
+				       {"500", "Item 5", "100.00", "5", "500.00"}
+				};
+
+				DefaultTableModel modelItem = new DefaultTableModel(dadosItem , colunasItem );
+				JTable tabelaItem = new JTable();
+				tabelaItem.setModel(modelItem);
+				tabelaItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				JScrollPane  painelTabelaItem = new JScrollPane();
+				painelTabelaItem.setViewportView(tabelaItem);
+				
+				
 				JPanel cadastroPanelNf = new JPanel();
 				cadastroPanelNf.setLayout(new BoxLayout(cadastroPanelNf, BoxLayout.Y_AXIS));
 				//cadastroPanelNf.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -215,13 +233,15 @@ public class TelaInicial {
 				cadastroPanel.add(cadastroPanelNf);
 				cadastroPanel.add(cadastroPanelEmitente);
 				cadastroPanel.add(cadastroPanelDestinatario);
+				cadastroPanel.add(painelTabelaItem);
 				cadastroPanel.add(new JButton("Gravar"));
 				cadastroPanel.add(new JButton("Limpar Campos"));
 				
 				
 				cadastroFrame.setLayout(new BorderLayout());
 				cadastroFrame.add(cadastroPanel);
-				cadastroFrame.setSize(500, 200);
+				//cadastroFrame.setSize(500, 200);
+				cadastroFrame.pack();
 				cadastroFrame.setVisible(true);
 				cadastroFrame.addWindowListener(new WindowAdapter() {
 					@Override
