@@ -250,14 +250,26 @@ public class TelaInicial {
 				cadastroPanelDestinatario.add(estadoDestinatario);
 				
 				
+				JPanel cadastroPanelItemOpcoes = new JPanel();
+				cadastroPanelItemOpcoes.setLayout(new BoxLayout(cadastroPanelItemOpcoes, BoxLayout.X_AXIS));
+				cadastroPanelItemOpcoes.add(adicionarItem);
+				cadastroPanelItemOpcoes.add(removerItem);
+				
+				
+				JPanel cadastroPanelItem = new JPanel();
+				cadastroPanelItem.setLayout(new BoxLayout(cadastroPanelItem, BoxLayout.Y_AXIS));
+				cadastroPanelItem.setBorder(BorderFactory.createTitledBorder(":::::ITEM::::::"));
+				cadastroPanelItem.add(new JLabel(" "));
+				cadastroPanelItem.add(painelTabelaItem);
+				cadastroPanelItem.add(cadastroPanelItemOpcoes);
+				
+				
 				JPanel cadastroPanel = new JPanel();
 				cadastroPanel.setLayout(new BoxLayout(cadastroPanel, BoxLayout.Y_AXIS));
 				cadastroPanel.add(cadastroPanelNf);
 				cadastroPanel.add(cadastroPanelEmitente);
 				cadastroPanel.add(cadastroPanelDestinatario);
-				cadastroPanel.add(painelTabelaItem);
-				cadastroPanel.add(adicionarItem);
-				cadastroPanel.add(removerItem);
+				cadastroPanel.add(cadastroPanelItem);
 				cadastroPanel.add(new JButton("Gravar"));
 				cadastroPanel.add(new JButton("Limpar Campos"));
 				
