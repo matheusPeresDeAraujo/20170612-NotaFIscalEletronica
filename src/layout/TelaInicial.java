@@ -189,7 +189,7 @@ public class TelaInicial {
 				
 				JTextField quantidadeItens = new JTextField();
 				JTextField valorTotal = new JTextField();
-				JTextArea informacoes = new JTextArea();
+				JTextArea informacoes = new JTextArea(10,10);
 				
 				
 				numero.setColumns(5);
@@ -210,6 +210,11 @@ public class TelaInicial {
 				
 				adicionarItem.addActionListener(action3);
 				removerItem.addActionListener(action3);
+				
+				quantidadeItens.setColumns(5);
+				valorTotal.setColumns(12);
+				informacoes.setColumns(10);
+				
 				
 				
 				JPanel cadastroPanelNf1 = new JPanel();
@@ -283,8 +288,8 @@ public class TelaInicial {
 				cadastroPanelDestinatario.setBorder(BorderFactory.createTitledBorder(":::::DESTINATARIO::::::"));
 				cadastroPanelDestinatario.setLayout(new BoxLayout(cadastroPanelDestinatario, BoxLayout.Y_AXIS));
 				cadastroPanelDestinatario.add(new JLabel(" "));
-				cadastroPanelDestinatario.add(cadastroPanelDestinatario1);
 				cadastroPanelDestinatario.add(cadastroPanelDestinatario2);
+				cadastroPanelDestinatario.add(cadastroPanelDestinatario1);
 				cadastroPanelDestinatario.add(new JLabel(" "));
 				
 				
@@ -302,13 +307,24 @@ public class TelaInicial {
 				cadastroPanelItem.add(cadastroPanelItemOpcoes);
 				
 				
+				JPanel cadastroPanelNff1 = new JPanel();
+				cadastroPanelNff1.setLayout(new BoxLayout(cadastroPanelNff1, BoxLayout.X_AXIS));
+				cadastroPanelNff1.add(new JLabel("   Quantidade de itens: "));
+				cadastroPanelNff1.add(quantidadeItens);
+				cadastroPanelNff1.add(new JLabel("   Valor Total: "));
+				cadastroPanelNff1.add(valorTotal);
+				
+				
+				JPanel cadastroPanelNff2 = new JPanel();
+				cadastroPanelNff2.setLayout(new BorderLayout());
+				cadastroPanelNff2.add(new JLabel("   Informações: "));
+				
+				
 				JPanel cadastroPanelNff = new JPanel();
 				cadastroPanelNff.setLayout(new BoxLayout(cadastroPanelNff, BoxLayout.Y_AXIS));
-				cadastroPanelNff.add(new JLabel("   Quantidade de itens: "));
-				cadastroPanelNff.add(quantidadeItens);
-				cadastroPanelNff.add(new JLabel("   Valor Total: "));
-				cadastroPanelNff.add(valorTotal);
-				cadastroPanelNff.add(new JLabel("   Informações: "));
+				cadastroPanelNff.add(new JLabel(" "));
+				cadastroPanelNff.add(cadastroPanelNff1);
+				cadastroPanelNff.add(cadastroPanelNff2);
 				cadastroPanelNff.add(informacoes);
 				
 				
@@ -422,6 +438,7 @@ public class TelaInicial {
 		
 		
 		frame.setLayout(new BorderLayout());
+		//frame.setResizable(false);
 		frame.add(telaInicial);
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().add(toolbar, BorderLayout.PAGE_START);
