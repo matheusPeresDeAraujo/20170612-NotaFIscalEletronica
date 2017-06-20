@@ -192,6 +192,10 @@ public class TelaInicial {
 				JTextArea informacoes = new JTextArea(10,10);
 				
 				
+				JButton gravarNf = new JButton("Gravar");
+				JButton cancelarNf = new JButton("Cancelar");
+				
+				
 				numero.setColumns(5);
 				modelo.setColumns(10);
 				natureza.setColumns(5);
@@ -218,7 +222,7 @@ public class TelaInicial {
 				
 				
 				JPanel cadastroPanelNf1 = new JPanel();
-				cadastroPanelNf1.setLayout(new BoxLayout(cadastroPanelNf1, BoxLayout.X_AXIS));
+				//cadastroPanelNf1.setLayout(new BoxLayout(cadastroPanelNf1, BoxLayout.X_AXIS));
 				cadastroPanelNf1.add(new JLabel("   Numero NF: "));
 				cadastroPanelNf1.add(numero);
 				cadastroPanelNf1.add(new JLabel("   Modelo: "));
@@ -228,7 +232,7 @@ public class TelaInicial {
 				
 				
 				JPanel cadastroPanelNf2 = new JPanel();
-				cadastroPanelNf2.setLayout(new BoxLayout(cadastroPanelNf2, BoxLayout.X_AXIS));
+				//cadastroPanelNf2.setLayout(new BoxLayout(cadastroPanelNf2, BoxLayout.X_AXIS));
 				cadastroPanelNf2.add(new JLabel("   Data Operação: "));
 				cadastroPanelNf2.add(dataOperacao);
 				cadastroPanelNf2.add(new JLabel("   Data Emissão: "));
@@ -328,6 +332,12 @@ public class TelaInicial {
 				cadastroPanelNff.add(informacoes);
 				
 				
+				JPanel cadastroPanelControler = new JPanel();
+				cadastroPanelControler.setLayout(new BoxLayout(cadastroPanelControler, BoxLayout.X_AXIS));
+				cadastroPanelControler.add(gravarNf);
+				cadastroPanelControler.add(cancelarNf);
+				
+				
 				JPanel cadastroPanel = new JPanel();
 				cadastroPanel.setLayout(new BoxLayout(cadastroPanel, BoxLayout.Y_AXIS));
 				cadastroPanel.add(new JLabel(" "));
@@ -338,8 +348,7 @@ public class TelaInicial {
 				cadastroPanel.add(cadastroPanelDestinatario);
 				cadastroPanel.add(cadastroPanelItem);
 				cadastroPanel.add(cadastroPanelNff);
-				cadastroPanel.add(new JButton("Gravar"));
-				cadastroPanel.add(new JButton("Limpar Campos"));
+				cadastroPanel.add(cadastroPanelControler);
 				
 				
 				cadastroFrame.setLayout(new BorderLayout());
