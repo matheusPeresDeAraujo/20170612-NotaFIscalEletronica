@@ -1,7 +1,10 @@
 package layout;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -25,12 +28,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 public class TelaInicial {
 
 	public static void main(String[] args) {
-		
+
+		FlowLayout testess = new FlowLayout();
 		
 		// Tabela de visualização de notas fiscais
 		Object[] colunas = new String[]{"Numero","Date Emissão","CNPJ/CPF","Razão Social/Nome","Quantidade de Itens","Valor Total"};
@@ -74,39 +79,78 @@ public class TelaInicial {
 		JFrame sobreFrame = new JFrame("Sobre");
 		JFrame cadastroFrame = new JFrame("Cadastro");
 		
+		
+		JTextField numero = new JTextField();
+		JTextField modelo = new JTextField();
+		JTextField natureza = new JTextField();
+		JTextField dataOperacao = new JTextField();
+		JTextField dataEmissao = new JTextField();
+		
+		JTextField identificacaoEmitente = new JTextField();
+		JTextField nomeEmitente = new JTextField();
+		JTextField inscricaoEmitente = new JTextField();
+		JTextField estadoEmitente = new JTextField();
+		
+		JTextField identificacaoDestinatario = new JTextField();
+		JTextField nomeDestinatario = new JTextField();
+		JTextField inscricaoDestinatario = new JTextField();
+		JTextField estadoDestinatario = new JTextField();
+		
+		JButton adicionarItem = new JButton("Adicionar");
+		JButton removerItem = new JButton("Remover");
+		
+		JTextField quantidadeItens = new JTextField();
+		JTextField valorTotal = new JTextField();
+		JTextArea informacoes = new JTextArea(10,10);
+		
+		
+		JButton gravarNf = new JButton("Gravar");
+		JButton cancelarNf = new JButton("Cancelar");
+		
+		
+		numero.setColumns(5);
+		modelo.setColumns(10);
+		natureza.setColumns(5);
+		dataOperacao.setColumns(10);
+		dataEmissao.setColumns(10);
+		
+		identificacaoEmitente.setColumns(14);
+		nomeEmitente.setColumns(20);
+		inscricaoEmitente.setColumns(20);
+		estadoEmitente.setColumns(10);
+		
+		identificacaoDestinatario.setColumns(14);
+		nomeDestinatario.setColumns(20);
+		inscricaoDestinatario.setColumns(20);
+		estadoDestinatario.setColumns(10);
+		
+		quantidadeItens.setColumns(5);
+		valorTotal.setColumns(12);
+		informacoes.setColumns(10);
+		
+		
 		ActionListener action0 = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				JTextField Codigo = new JTextField();
-				JTextField Descricao = new JTextField();
-				JTextField Preco = new JTextField();
-				JTextField Quantidade = new JTextField();
+//				Numero","Date Emissão","CNPJ/CPF","Razão Social/Nome","Quantidade de Itens","Valor Total"
 				
-				JComponent[] inputs = new JComponent[] {
-				new JLabel("Codigo"),
-				Codigo,
-				new JLabel("Descricao"),
-				Descricao,
-				new JLabel("Preco"),
-				Preco,
-				new JLabel("Quantidade"),
-				Quantidade};
-
-				int result = JOptionPane.showConfirmDialog(null, inputs, "Insira as informações!", JOptionPane.PLAIN_MESSAGE);
-
-				if (Codigo.getText() == null || Codigo.getText().equals("") || Descricao.getText() == null || Descricao.getText().equals("") || Preco.getText() == null || Preco.getText().equals("") || Quantidade.getText() == null || Quantidade.getText().equals(""))
-			           return;
 				
-					String codigoText = ""+Codigo.getText(); 
-					String descricaoText = ""+Descricao.getText(); 
-					String precoText = ""+Preco.getText(); 
-					String quantidadeText = ""+Quantidade.getText();
-					float valorTotal = Integer.parseInt(Preco.getText()) * Integer.parseInt(Quantidade.getText());
+//				if (Codigo.getText() == null || Codigo.getText().equals("") || Descricao.getText() == null || Descricao.getText().equals("") || Preco.getText() == null || Preco.getText().equals("") || Quantidade.getText() == null || Quantidade.getText().equals(""))
+//			           return;
+				
+					String numeroText = ""+numero.getText(); 
+					String dataEmissaoText = ""+dataEmissao.getText(); 
+					String cnpjCpfText = ""+identificacaoEmitente.getText(); 
+					String nomeText = ""+nomeEmitente.getText();
+					String quantidadeText = "10";
+					float valorTotal = 20;
 					
-					modelItem.addRow(new Object[]{codigoText, descricaoText, precoText, quantidadeText, valorTotal});
-				
+					model.addRow(new Object[]{numeroText, dataEmissaoText, cnpjCpfText, nomeText, quantidadeText, valorTotal});
+					cadastroFrame.dispose();
+					frame.setEnabled(true);
+					
 			}
 		};
 		
@@ -194,62 +238,11 @@ public class TelaInicial {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-
-				JTextField numero = new JTextField();
-				JTextField modelo = new JTextField();
-				JTextField natureza = new JTextField();
-				JTextField dataOperacao = new JTextField();
-				JTextField dataEmissao = new JTextField();
-				
-				JTextField identificacaoEmitente = new JTextField();
-				JTextField nomeEmitente = new JTextField();
-				JTextField inscricaoEmitente = new JTextField();
-				JTextField estadoEmitente = new JTextField();
-				
-				JTextField identificacaoDestinatario = new JTextField();
-				JTextField nomeDestinatario = new JTextField();
-				JTextField inscricaoDestinatario = new JTextField();
-				JTextField estadoDestinatario = new JTextField();
-				
-				JButton adicionarItem = new JButton("Adicionar");
-				JButton removerItem = new JButton("Remover");
-				
-				JTextField quantidadeItens = new JTextField();
-				JTextField valorTotal = new JTextField();
-				JTextArea informacoes = new JTextArea(10,10);
-				
-				
-				JButton gravarNf = new JButton("Gravar");
-				JButton cancelarNf = new JButton("Cancelar");
-				
-				
-				numero.setColumns(5);
-				modelo.setColumns(10);
-				natureza.setColumns(5);
-				dataOperacao.setColumns(10);
-				dataEmissao.setColumns(10);
-				
-				identificacaoEmitente.setColumns(14);
-				nomeEmitente.setColumns(20);
-				inscricaoEmitente.setColumns(20);
-				estadoEmitente.setColumns(10);
-				
-				identificacaoDestinatario.setColumns(14);
-				nomeDestinatario.setColumns(20);
-				inscricaoDestinatario.setColumns(20);
-				estadoDestinatario.setColumns(10);
-				
 				adicionarItem.addActionListener(action1);
 				removerItem.addActionListener(action3);
 				
-				quantidadeItens.setColumns(5);
-				valorTotal.setColumns(12);
-				informacoes.setColumns(10);
-				
 				gravarNf.addActionListener(action0);
-				
-				
-				
+
 				JPanel cadastroPanelNf1 = new JPanel();
 				//cadastroPanelNf1.setLayout(new BoxLayout(cadastroPanelNf1, BoxLayout.X_AXIS));
 				cadastroPanelNf1.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -384,6 +377,7 @@ public class TelaInicial {
 				
 				cadastroFrame.setLayout(new BorderLayout());
 				cadastroFrame.add(cadastroPanel);
+				cadastroFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				//cadastroFrame.setSize(500, 200);
 				cadastroFrame.pack();
 				cadastroFrame.setVisible(true);
@@ -397,14 +391,25 @@ public class TelaInicial {
 				
 			}
 		};
-		
 		ActionListener action5 = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				JPanel teste = new JPanel();
+				
+				sobreFrame.remove(numero);
+				sobreFrame.remove(modelo);
+				
+				
+				teste.setLayout(testess);
+				teste.add(numero);
+				teste.add(modelo);
+				
+				
 				JPanel sobrePanel = new JPanel();
 				sobrePanel.setLayout(new BoxLayout(sobrePanel, BoxLayout.Y_AXIS));
+				sobrePanel.add(teste);
 				sobrePanel.add(new JLabel("Disciplina: Desenvolvimento Orientado à Objetos e Persistência"));
 				sobrePanel.add(new JLabel("<HTML>Equipe: Matheus Peres de Araujo <BR> Alessandro <BR> Frederico</HTML>"));
 				sobrePanel.add(new JLabel("Trabalho desenvolvido no intuito de muita coisa."));
@@ -477,7 +482,7 @@ public class TelaInicial {
 		telaInicial.add(painelTabela);
 		
 		
-		frame.setLayout(new BorderLayout());
+//		frame.setLayout(new BorderLayout());
 		//frame.setResizable(false);
 		frame.add(telaInicial);
 		frame.setJMenuBar(menuBar);
