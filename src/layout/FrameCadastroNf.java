@@ -27,6 +27,7 @@ public class FrameCadastroNf extends JFrame{
 //	Atributos necessários para a manipulação da tabela de itens
 	DefaultTableModel modelItem;
 	JScrollPane  painelTabelaItem;
+	JTable tabelaItem = new JTable();
 	
 //	Atributos necessários para a manipulação dos campos na nota
 	JTextField numero = new JTextField();
@@ -65,6 +66,8 @@ public class FrameCadastroNf extends JFrame{
 	
 //	Acoes dentro do frame
 	ActionListener addItem;
+	ActionListener remItem;
+	ActionListener persistirNf;
 	
 	public FrameCadastroNf(){
 		
@@ -75,27 +78,23 @@ public class FrameCadastroNf extends JFrame{
 	private void contrutorJanela(){
 		
 		this.construtorTabelaModelItem();
+		this.construtorPanelNf();
+		this.construtorPanelEmitente();
+		this.construtorPanelDestinatario();
+		this.construtorPanelItem();
+		this.contrutorPanelNff();
+		this.construtorPanelControler();
 		
-
-		
-		
-		
-		
-		
+	
 		JPanel cadastroPanel = new JPanel();
 		cadastroPanel.setLayout(new BoxLayout(cadastroPanel, BoxLayout.Y_AXIS));
 		cadastroPanel.add(new JLabel(" "));
 		cadastroPanel.add(new JLabel(":::::NOTA FISCAL ELETRÔNICA:::::"));
-//		cadastroPanel.add(new JLabel(" "));
-		this.construtorPanelNf();
+		cadastroPanel.add(new JLabel(" "));
 		cadastroPanel.add(cadastroPanelNf);
-		this.construtorPanelEmitente();
 		cadastroPanel.add(cadastroPanelEmitente);
-		this.construtorPanelDestinatario();
 		cadastroPanel.add(cadastroPanelDestinatario);
-		this.construtorPanelItem();
 		cadastroPanel.add(cadastroPanelItem);
-		this.contrutorPanelNff();
 		cadastroPanel.add(cadastroPanelNff);
 		cadastroPanel.add(cadastroPanelControler);
 		
@@ -128,7 +127,6 @@ public class FrameCadastroNf extends JFrame{
 		};
 
 		modelItem = new DefaultTableModel(dadosItem , colunasItem );
-		JTable tabelaItem = new JTable();
 		tabelaItem.setModel(modelItem);
 		tabelaItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		painelTabelaItem = new JScrollPane();
@@ -245,6 +243,8 @@ public class FrameCadastroNf extends JFrame{
 		informacoes.setColumns(10);
 		this.actionAdicionarItem();
 		adicionarItem.addActionListener(addItem);
+		this.actionRemoverItem();
+		removerItem.addActionListener(remItem);
 		
 		
 		JPanel cadastroPanelItemOpcoes = new JPanel();
@@ -302,7 +302,33 @@ public class FrameCadastroNf extends JFrame{
 		
 	}
 	
-	private void contrutorPanelNff(){
+	private void actionRemoverItem(){
+		
+		remItem = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				//System.out.println(tabela.getSelectedRow());
+				if (tabelaItem.getSelectedRow()==-1){
+					JOptionPane.showMessageDialog(null, "Selecione o registro a ser apagado","Alerta", JOptionPane.PLAIN_MESSAGE);
+					return;
+				}
+				Object[] options = {"Sim", "Não"};
+				int n = JOptionPane.showOptionDialog(null, "Deseja realmente apagar o registro: "+tabelaItem.getSelectedRow(), "Alerta", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, options,options[0] );
+				
+				if (n == 1){
+					return;
+				}
+				modelItem.removeRow(tabelaItem.getSelectedRow());
+				
+				
+			}
+		};
+	}
+	
+ 	private void contrutorPanelNff(){
 		
 		JPanel cadastroPanelNff1 = new JPanel();
 		cadastroPanelNff1.setLayout(new BoxLayout(cadastroPanelNff1, BoxLayout.X_AXIS));
@@ -327,9 +353,37 @@ public class FrameCadastroNf extends JFrame{
 	
 	private void construtorPanelControler(){
 		
+		this.actionPersistirNf();
+		gravarNf.addActionListener(persistirNf);
+		
 		cadastroPanelControler.setLayout(new BoxLayout(cadastroPanelControler, BoxLayout.X_AXIS));
 		cadastroPanelControler.add(gravarNf);
 		cadastroPanelControler.add(cancelarNf);
+		
+	}
+	
+	private void actionPersistirNf(){
+		
+		
+		persistirNf = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+								
+				String numeroText = ""+numero.getText(); 
+				String dataEmissaoText = ""+dataEmissao.getText(); 
+				String cnpjCpfText = ""+identificacaoEmitente.getText(); 
+				String nomeText = ""+nomeEmitente.getText();
+				String quantidadeText = "10";
+				float valorTotal = 20;
+				
+				FrameInicial frameInicial = new FrameInicial();
+				
+				frameInicial.model.addRow(new Object[]{numeroText, dataEmissaoText, cnpjCpfText, nomeText, quantidadeText, valorTotal});
+				dispose();
+				
+			}
+		};
 		
 	}
 }
