@@ -74,47 +74,74 @@ public class TelaInicial {
 		JFrame sobreFrame = new JFrame("Sobre");
 		JFrame cadastroFrame = new JFrame("Cadastro");
 		
+		ActionListener action0 = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				JTextField Codigo = new JTextField();
+				JTextField Descricao = new JTextField();
+				JTextField Preco = new JTextField();
+				JTextField Quantidade = new JTextField();
+				
+				JComponent[] inputs = new JComponent[] {
+				new JLabel("Codigo"),
+				Codigo,
+				new JLabel("Descricao"),
+				Descricao,
+				new JLabel("Preco"),
+				Preco,
+				new JLabel("Quantidade"),
+				Quantidade};
+
+				int result = JOptionPane.showConfirmDialog(null, inputs, "Insira as informações!", JOptionPane.PLAIN_MESSAGE);
+
+				if (Codigo.getText() == null || Codigo.getText().equals("") || Descricao.getText() == null || Descricao.getText().equals("") || Preco.getText() == null || Preco.getText().equals("") || Quantidade.getText() == null || Quantidade.getText().equals(""))
+			           return;
+				
+					String codigoText = ""+Codigo.getText(); 
+					String descricaoText = ""+Descricao.getText(); 
+					String precoText = ""+Preco.getText(); 
+					String quantidadeText = ""+Quantidade.getText();
+					float valorTotal = Integer.parseInt(Preco.getText()) * Integer.parseInt(Quantidade.getText());
+					
+					modelItem.addRow(new Object[]{codigoText, descricaoText, precoText, quantidadeText, valorTotal});
+				
+			}
+		};
 		
 		ActionListener action1 = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				
-				JTextField Numero = new JTextField();
-				JTextField DateEmissao = new JTextField();
-				JTextField DateOperacao = new JTextField();
-				JTextField Emitente = new JTextField();
-				JTextField Destinatario = new JTextField();
-				JTextField Informacoes = new JTextField();
+				JTextField Codigo = new JTextField();
+				JTextField Descricao = new JTextField();
+				JTextField Preco = new JTextField();
+				JTextField Quantidade = new JTextField();
 				
 				JComponent[] inputs = new JComponent[] {
-				new JLabel("Numero"),
-				Numero,
-				new JLabel("DateEmissao"),
-				DateEmissao,
-				new JLabel("DateOperacao"),
-				DateOperacao,
-				new JLabel("Emitente"),
-				Emitente,
-				new JLabel("Destinatario"),
-				Destinatario,
-				new JLabel("Informacoes"),
-				Informacoes};
+				new JLabel("Codigo"),
+				Codigo,
+				new JLabel("Descricao"),
+				Descricao,
+				new JLabel("Preco"),
+				Preco,
+				new JLabel("Quantidade"),
+				Quantidade};
 
 				int result = JOptionPane.showConfirmDialog(null, inputs, "Insira as informações!", JOptionPane.PLAIN_MESSAGE);
 
-				if (Numero.getText() == null || Numero.getText().equals("") || DateEmissao.getText() == null || DateEmissao.getText().equals("") || DateOperacao.getText() == null || DateOperacao.getText().equals("") || Emitente.getText() == null || Emitente.getText().equals("") || Destinatario.getText() == null || Destinatario.getText().equals(""))
+				if (Codigo.getText() == null || Codigo.getText().equals("") || Descricao.getText() == null || Descricao.getText().equals("") || Preco.getText() == null || Preco.getText().equals("") || Quantidade.getText() == null || Quantidade.getText().equals(""))
 			           return;
 				
-					String numeroText = ""+Numero.getText(); 
-					String dateEmissaoText = ""+DateEmissao.getText(); 
-					String dateOperacaoText = ""+DateOperacao.getText(); 
-					String emitenteText = ""+Emitente.getText(); 
-					String destinatarioText = ""+Destinatario.getText(); 
-					String informacoesText = ""+Informacoes.getText(); 
+					String codigoText = ""+Codigo.getText(); 
+					String descricaoText = ""+Descricao.getText(); 
+					String precoText = ""+Preco.getText(); 
+					String quantidadeText = ""+Quantidade.getText();
+					float valorTotal = Integer.parseInt(Preco.getText()) * Integer.parseInt(Quantidade.getText());
 					
-					model.addRow(new Object[]{numeroText, dateEmissaoText,dateOperacaoText,emitenteText,destinatarioText,informacoesText});
+					modelItem.addRow(new Object[]{codigoText, descricaoText, precoText, quantidadeText, valorTotal});
 				
 			}
 		};
@@ -212,17 +239,20 @@ public class TelaInicial {
 				inscricaoDestinatario.setColumns(20);
 				estadoDestinatario.setColumns(10);
 				
-				adicionarItem.addActionListener(action3);
+				adicionarItem.addActionListener(action1);
 				removerItem.addActionListener(action3);
 				
 				quantidadeItens.setColumns(5);
 				valorTotal.setColumns(12);
 				informacoes.setColumns(10);
 				
+				gravarNf.addActionListener(action0);
+				
 				
 				
 				JPanel cadastroPanelNf1 = new JPanel();
 				//cadastroPanelNf1.setLayout(new BoxLayout(cadastroPanelNf1, BoxLayout.X_AXIS));
+				cadastroPanelNf1.setLayout(new FlowLayout(FlowLayout.LEFT));
 				cadastroPanelNf1.add(new JLabel("   Numero NF: "));
 				cadastroPanelNf1.add(numero);
 				cadastroPanelNf1.add(new JLabel("   Modelo: "));
@@ -233,6 +263,7 @@ public class TelaInicial {
 				
 				JPanel cadastroPanelNf2 = new JPanel();
 				//cadastroPanelNf2.setLayout(new BoxLayout(cadastroPanelNf2, BoxLayout.X_AXIS));
+				cadastroPanelNf2.setLayout(new FlowLayout(FlowLayout.LEFT));
 				cadastroPanelNf2.add(new JLabel("   Data Operação: "));
 				cadastroPanelNf2.add(dataOperacao);
 				cadastroPanelNf2.add(new JLabel("   Data Emissão: "));
@@ -376,7 +407,7 @@ public class TelaInicial {
 				sobrePanel.setLayout(new BoxLayout(sobrePanel, BoxLayout.Y_AXIS));
 				sobrePanel.add(new JLabel("Disciplina: Desenvolvimento Orientado à Objetos e Persistência"));
 				sobrePanel.add(new JLabel("<HTML>Equipe: Matheus Peres de Araujo <BR> Alessandro <BR> Frederico</HTML>"));
-				sobrePanel.add(new JLabel("Trabalho desenvolvido no intuito de muitas coisa."));
+				sobrePanel.add(new JLabel("Trabalho desenvolvido no intuito de muita coisa."));
 				
 				
 				sobreFrame.setLayout(new BorderLayout());
