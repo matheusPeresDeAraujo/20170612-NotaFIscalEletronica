@@ -2,14 +2,18 @@ package layout;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -87,7 +91,43 @@ public class FrameCadastroNf extends JFrame{
 		informacoes.setColumns(10);
 		
 		
-//		adicionarItem.addActionListener(action1);
+		adicionarItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+								
+				JTextField Codigo = new JTextField();
+				JTextField Descricao = new JTextField();
+				JTextField Preco = new JTextField();
+				JTextField Quantidade = new JTextField();
+				
+				JComponent[] inputs = new JComponent[] {
+				new JLabel("Codigo"),
+				Codigo,
+				new JLabel("Descricao"),
+				Descricao,
+				new JLabel("Preco"),
+				Preco,
+				new JLabel("Quantidade"),
+				Quantidade};
+
+				int result = JOptionPane.showConfirmDialog(null, inputs, "Insira as informações!", JOptionPane.PLAIN_MESSAGE);
+
+				if (Codigo.getText() == null || Codigo.getText().equals("") || Descricao.getText() == null || Descricao.getText().equals("") || Preco.getText() == null || Preco.getText().equals("") || Quantidade.getText() == null || Quantidade.getText().equals(""))
+			           return;
+				
+					String codigoText = ""+Codigo.getText(); 
+					String descricaoText = ""+Descricao.getText(); 
+					String precoText = ""+Preco.getText(); 
+					String quantidadeText = ""+Quantidade.getText();
+					float valorTotal = Integer.parseInt(Preco.getText()) * Integer.parseInt(Quantidade.getText());
+					
+					modelItem.addRow(new Object[]{codigoText, descricaoText, precoText, quantidadeText, valorTotal});
+				
+				
+			}
+		});
+		
 //		removerItem.addActionListener(action3);
 //		
 //		gravarNf.addActionListener(action0);

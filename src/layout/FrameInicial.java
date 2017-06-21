@@ -99,7 +99,7 @@ public class FrameInicial extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 				FrameCadastroNf cadastro = new FrameCadastroNf();
-				
+				cadastro.setEnabled(true);
 				cadastro.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
