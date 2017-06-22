@@ -21,17 +21,17 @@ public class Main {
 		emitente.setEstado("MG");
 		emitente.setInscricaoEstadual("131131");
 		emitente.setRazaoSocial("Matheus");
-		em.persist(emitente);
-		em.flush();
+//		em.persist(emitente);
+//		em.flush();
 		
 		Pessoa destinatario = new Pessoa();
 		destinatario.setCnpjCpf("88103301000112");
 		destinatario.setEstado("MG");
 		destinatario.setInscricaoEstadual("543345");
 		destinatario.setRazaoSocial("Empresa");
-		em.persist(destinatario);
-		em.flush();
-		
+//		em.persist(destinatario);
+//		em.flush();
+//		
 		NotaFiscal nf = new NotaFiscal();
 		nf.setDataEmissao(new Date());
 		nf.setDataOperacao(new Date());
@@ -50,8 +50,9 @@ public class Main {
 		
 		
 		nf.setItens(itens);
-		nf.setNotaFiscalNumero(100);
+		nf.setNotaFiscalNumero(1400);
 		em.persist(nf);
+
 		
 		em.getTransaction().commit();
 		em.close();

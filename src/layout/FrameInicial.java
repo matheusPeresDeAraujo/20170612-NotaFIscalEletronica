@@ -5,7 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,12 +19,15 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+
+import model.NotaFiscal;
 
 public class FrameInicial extends JFrame{
 	
@@ -35,6 +43,7 @@ public class FrameInicial extends JFrame{
 //	Acoes dentro do frame
 	ActionListener acessSobre;
 	ActionListener acessCadastro;
+	ActionListener remove;
 
 	
 	public FrameInicial(){
@@ -68,11 +77,11 @@ public class FrameInicial extends JFrame{
 		Object[] colunas = new String[]{"Numero","Date Emissão","CNPJ/CPF","Razão Social/Nome","Quantidade de Itens","Valor Total"};
 
 		Object[][] dados = new Object[][]{
-		       {"100", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
-		       {"200", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
-		       {"300", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
-		       {"400", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
-		       {"500", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"}
+//		       {"100", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
+//		       {"200", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
+//		       {"300", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
+//		       {"400", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"},
+//		       {"500", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"}
 		};
 
 		model = new DefaultTableModel(dados , colunas );
@@ -81,6 +90,9 @@ public class FrameInicial extends JFrame{
 		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		painelTabela = new JScrollPane();
 		painelTabela.setViewportView(tabela);
+		
+//		busca e inserção de notas fiscais do banco na tabela
+		this.buscaNf();
 		
 	}
 	
@@ -117,7 +129,8 @@ public class FrameInicial extends JFrame{
 
 		this.actionAcessCadastro();
 		btn1.addActionListener(acessCadastro);
-		
+		this.actionRemove();
+		btn2.addActionListener(remove);
 		
 		toolbar.setFloatable(false);
 		toolbar.add(btn1);
@@ -157,9 +170,33 @@ public class FrameInicial extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				FrameCadastroNf cadastro = new FrameCadastroNf();
+				FrameCadastroNf cadastro = new FrameCadastroNf(new Evento<NotaFiscal>() {
+
+					@Override
+					public void notificar(NotaFiscal info) {
+						
+						model.addRow(new Object[]{
+								info.getNotaFiscalNumero(),
+								info.getDataEmissao(),
+								info.getEmitente().getCnpjCpf(),
+								info.getEmitente().getRazaoSocial(),
+								info.getQuantItens(),
+								info.getValorItens()
+								
+						});
+						setEnabled(true);
+						
+						EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
+						em.getTransaction().begin();
+						
+						em.persist(info);
+						
+						em.getTransaction().commit();
+						em.close();
+						
+					}
+				});
 				cadastro.setEnabled(true);
-//				dispose();
 				cadastro.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
@@ -173,8 +210,63 @@ public class FrameInicial extends JFrame{
 		
 	}
 	
+	private void actionRemove(){
+		
+		remove = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (tabela.getSelectedRow()==-1){
+					JOptionPane.showMessageDialog(null, "Selecione o registro a ser apagado","Alerta", JOptionPane.PLAIN_MESSAGE);
+					return;
+				}
+				Object[] options = {"Sim", "Não"};
+				int n = JOptionPane.showOptionDialog(null, "Deseja realmente apagar o registro: "+tabela.getSelectedRow(), "Alerta", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, options,options[0] );
+				
+				if (n == 1){
+					return;
+				}
+				
+				EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
+				em.getTransaction().begin();
+				
+				String j =""+tabela.getValueAt(tabela.getSelectedRow(), 0);
+				long i = Long.parseLong(j);
+				Query q = em.createQuery("delete from Nf n " 
+						+ "where n.notaFiscalNumero = :name");
+				q.setParameter("name", i);
+				int deleted = q.executeUpdate();	  
+					  
+				em.getTransaction().commit();
+				em.close();
+				
+				model.removeRow(tabela.getSelectedRow());
+				
+			}
+		};
+	}
+	
+	private void buscaNf(){
+		
+		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+//		Busca de notas fiscais.
+		TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n", NotaFiscal.class);
+		List<NotaFiscal> result = query.getResultList();
+		System.out.println(result);
+		
+		for(NotaFiscal notas : result){
+			
+			model.addRow(new Object[]{notas.getNotaFiscalNumero(), notas.getDataEmissao(), notas.getEmitente().getCnpjCpf(), notas.getEmitente().getRazaoSocial(), notas.getQuantItens(), notas.getValorItens()});
+	
+		}
+		em.close();	
+		
+	}
+	
 	public static void main(String[] args){
 		new FrameInicial();
 	}
+
 	
 }

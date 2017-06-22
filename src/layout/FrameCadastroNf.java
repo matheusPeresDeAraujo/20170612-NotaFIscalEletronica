@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -21,6 +24,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+
+import model.Item;
+import model.NotaFiscal;
+import model.Pessoa;
 
 public class FrameCadastroNf extends JFrame{
 
@@ -69,13 +76,13 @@ public class FrameCadastroNf extends JFrame{
 	ActionListener remItem;
 	ActionListener persistirNf;
 	
-	public FrameCadastroNf(){
+	public FrameCadastroNf(Evento evento){
 		
-		this.contrutorJanela();
+		this.contrutorJanela(evento);
 		
 	}
 	
-	private void contrutorJanela(){
+	private void contrutorJanela(Evento evento){
 		
 		this.construtorTabelaModelItem();
 		this.construtorPanelNf();
@@ -83,7 +90,7 @@ public class FrameCadastroNf extends JFrame{
 		this.construtorPanelDestinatario();
 		this.construtorPanelItem();
 		this.contrutorPanelNff();
-		this.construtorPanelControler();
+		this.construtorPanelControler(evento);
 		
 	
 		JPanel cadastroPanel = new JPanel();
@@ -351,9 +358,9 @@ public class FrameCadastroNf extends JFrame{
 		
 	}
 	
-	private void construtorPanelControler(){
+	private void construtorPanelControler(Evento evento){
 		
-		this.actionPersistirNf();
+		this.actionPersistirNf(evento);
 		gravarNf.addActionListener(persistirNf);
 		
 		cadastroPanelControler.setLayout(new BoxLayout(cadastroPanelControler, BoxLayout.X_AXIS));
@@ -362,25 +369,65 @@ public class FrameCadastroNf extends JFrame{
 		
 	}
 	
-	private void actionPersistirNf(){
+	private void actionPersistirNf(Evento<NotaFiscal> evento){
 		
 		
 		persistirNf = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-								
-				String numeroText = ""+numero.getText(); 
-				String dataEmissaoText = ""+dataEmissao.getText(); 
-				String cnpjCpfText = ""+identificacaoEmitente.getText(); 
-				String nomeText = ""+nomeEmitente.getText();
-				String quantidadeText = "10";
-				float valorTotal = 20;
 				
-				FrameInicial frameInicial = new FrameInicial();
 				
-				frameInicial.model.addRow(new Object[]{numeroText, dataEmissaoText, cnpjCpfText, nomeText, quantidadeText, valorTotal});
+				Pessoa emitente = new Pessoa();
+				emitente.setCnpjCpf(identificacaoEmitente.getText());
+				emitente.setEstado(estadoEmitente.getText());
+				emitente.setInscricaoEstadual(inscricaoEmitente.getText());
+				emitente.setRazaoSocial(nomeEmitente.getText());
+				
+				
+				Pessoa destinatario = new Pessoa();
+				destinatario.setCnpjCpf(identificacaoDestinatario.getText());
+				destinatario.setEstado(estadoDestinatario.getText());
+				destinatario.setInscricaoEstadual(inscricaoDestinatario.getText());
+				destinatario.setRazaoSocial(nomeDestinatario.getText());
+				
+				
+				NotaFiscal nf = new NotaFiscal();
+				nf.setDataEmissao(new Date());
+				nf.setDataOperacao(new Date());
+				nf.setEmitente(emitente);
+				nf.setDestinatario(destinatario);
+				nf.setInformacoes(informacoes.getText());
+				List<Item> itens = new ArrayList<>();
+				
+				Double valorItens = 0.0;
+				for(int i = 0; i < modelItem.getColumnCount();i++){
+					
+					Item item = new Item();
+					
+					String cl0 = ""+tabelaItem.getValueAt(i, 0);
+					String cl1 = ""+tabelaItem.getValueAt(i, 1);
+					String cl2 = ""+tabelaItem.getValueAt(i, 2);
+					String cl3 = ""+tabelaItem.getValueAt(i, 3);
+					
+					item.setCodigo(Integer.parseInt(cl0));
+					item.setDescricao(cl1);
+					item.setQuant(Integer.parseInt(cl0));
+					item.setValor(Double.parseDouble(cl3));
+					valorItens +=item.getValor();
+					itens.add(item);
+					
+				}
+
+				String quant = ""+modelItem.getColumnCount();
+				nf.setQuantItens(Integer.parseInt(quant));
+				nf.setValorItens(valorItens);
+				nf.setItens(itens);
+				nf.setNotaFiscalNumero(Integer.parseInt(numero.getText()));
+				
+				evento.notificar(nf);
 				dispose();
+				setEnabled(true);
 				
 			}
 		};

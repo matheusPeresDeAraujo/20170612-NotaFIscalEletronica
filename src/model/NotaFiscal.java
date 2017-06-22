@@ -32,7 +32,7 @@ public class NotaFiscal {
 	@Column(nullable=false)
 	private Date dataOperacao = new Date();
 
-	@Column(unique=true, nullable=false)//Não pode ser mais que 5 dias após operacao
+	@Column(nullable=false)//Não pode ser mais que 5 dias após operacao
 	private Date dataEmissao;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -43,13 +43,11 @@ public class NotaFiscal {
     @JoinColumn(name = "destinatario_id", nullable=false)
 	private Pessoa destinatario;
 	
-	@ManyToMany(cascade ={ 
-			CascadeType.PERSIST, 
-			CascadeType.MERGE})
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Item> itens = new ArrayList<>();
 	
-	//private int quantItens; - calculado
-	//private double valorItens; - calculado
+	private int quantItens; 
+	private double valorItens; 
 
 	@Column(length=2048)
 	private String informacoes;
@@ -75,6 +73,22 @@ public class NotaFiscal {
 		return id;
 	}
 	
+	public int getQuantItens() {
+		return quantItens;
+	}
+
+	public void setQuantItens(int quantItens) {
+		this.quantItens = quantItens;
+	}
+
+	public double getValorItens() {
+		return valorItens;
+	}
+
+	public void setValorItens(double valorItens) {
+		this.valorItens = valorItens;
+	}
+
 	public long getNotaFiscalNumero() {
 		return notaFiscalNumero;
 	}
