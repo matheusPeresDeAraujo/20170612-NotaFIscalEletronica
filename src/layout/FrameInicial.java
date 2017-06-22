@@ -194,7 +194,14 @@ public class FrameInicial extends JFrame{
 		System.out.println(result3);
 		
 		em3.close();
+		
 //		Maior valor de nota
+		EntityManager em4 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+		TypedQuery<Double> query4 = em4.createQuery("select MAX(n.valorItens) from Nf n", Double.class);
+		Double result4 = query4.getSingleResult();
+		System.out.println(result4);
+		
+		em4.close();
 //		Estado com maior número de notas emitidas
 //		Estado com maior número de notas como destinatário
 //		CNPJ/Nome da empresa que é a maior compradora em volume de vendas
