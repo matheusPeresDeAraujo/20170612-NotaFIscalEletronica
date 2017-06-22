@@ -42,6 +42,7 @@ public class FrameInicial extends JFrame{
 	
 //	Acoes dentro do frame
 	ActionListener acessSobre;
+	ActionListener acessIndicador;
 	ActionListener acessCadastro;
 	ActionListener remove;
 
@@ -101,6 +102,7 @@ public class FrameInicial extends JFrame{
 		JMenu arquivo = new JMenu("Arquivo");
 		JMenu cadastro = new JMenu("Cadastro");
 		JMenuItem sobre = new JMenuItem("Sobre");
+		JMenuItem indicador = new JMenuItem("Indicador");
 		
 		JMenuItem sair = new JMenuItem("Sair");
 		JMenuItem adicionar = new JMenuItem("Adicionar");
@@ -111,10 +113,14 @@ public class FrameInicial extends JFrame{
 		this.actionAcessSobre();
 		sobre.addActionListener(acessSobre);
 		
+		this.actionAcessIndicador();
+		indicador.addActionListener(acessIndicador);
+		
 		
 		menuBar.add(arquivo);
 		menuBar.add(cadastro);
 		menuBar.add(sobre);
+		menuBar.add(indicador);
 		
 		
 	}
@@ -160,6 +166,41 @@ public class FrameInicial extends JFrame{
 				
 			}
 		};
+		
+	}
+	
+	private void actionAcessIndicador(){
+		
+//		Total de Notas Fiscais cadastradas
+		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+		TypedQuery<Long> query = em.createQuery("select count(n) from Nf n", Long.class);
+		long result = query.getSingleResult();
+		System.out.println(result);
+		
+		em.close();	
+		
+//		Média de valor das notas
+		EntityManager em2 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+		TypedQuery<Double> query2 = em2.createQuery("select AVG(n.valorItens) from Nf n", Double.class);
+		Double result2 = query2.getSingleResult();
+		System.out.println(result2);
+		
+		em2.close();
+		
+//		Média de valor dos itens das notas
+		EntityManager em3 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+		TypedQuery<Double> query3 = em3.createQuery("select SUM(n.valorItens)/SUM(n.quantItens) from Nf n", Double.class);
+		Double result3 = query3.getSingleResult();
+		System.out.println(result3);
+		
+		em3.close();
+//		Maior valor de nota
+//		Estado com maior número de notas emitidas
+//		Estado com maior número de notas como destinatário
+//		CNPJ/Nome da empresa que é a maior compradora em volume de vendas
+//		CNPJ/Nome da empresa que é a maior vendedora em volume de vendas
+//		Total de notas com valor superior a 10mil
+//		Total de notas com mais de 10 itens
 		
 	}
 	
