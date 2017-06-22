@@ -59,9 +59,16 @@ public class Main {
 //		em.close();
 		
 		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Long> query = em.createQuery("select count(n) from Nf n", Long.class);
-		long result = query.getSingleResult();
-		System.out.println(result);
+		TypedQuery<Object[]> query = em.createQuery("select n.emitente.estado, count(*) from Nf n GROUP by n.emitente.estado", Object[].class);
+		List<Object[]> result = query.getResultList();
+		
+		for(Object[] itens : result){
+			String name = (String) itens[0];
+			long quant = (Long) itens[1];
+			
+			System.out.println("Nome é: " + name + "  Quantidade é: " + quant);
+	
+		}
 		
 		em.close();
 	}

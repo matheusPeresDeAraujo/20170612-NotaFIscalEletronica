@@ -5,7 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -202,7 +207,39 @@ public class FrameInicial extends JFrame{
 		System.out.println(result4);
 		
 		em4.close();
+		
 //		Estado com maior número de notas emitidas
+		EntityManager em5 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+		TypedQuery<Object[]> query5 = em5.createQuery("select n.emitente.estado, count(*) from Nf n GROUP by n.emitente.estado", Object[].class);
+		List<Object[]> result5 = query5.getResultList();
+		TypedQuery<Object[]> query6 = em5.createQuery("select n.destinatario.estado, count(*) from Nf n GROUP by n.destinatario.estado", Object[].class);
+		List<Object[]> result6 = query6.getResultList();
+		
+		TreeMap<String, Long> resultado = new TreeMap();
+		
+		for(Object[] itens : result5){
+			String name = (String) itens[0];
+			long quant = (Long) itens[1];
+			
+			resultado.put(name, quant);
+		}
+		for(Object[] itens : result6){
+			String name = (String) itens[0];
+			long quant = (Long) itens[1];
+			
+			if(resultado.containsKey(name)){
+				long i =resultado.get(name)+quant;
+				resultado.put(name, i);
+			}else{
+				resultado.put(name, quant);
+			}
+		}
+		System.out.println(resultado.get(resultado.firstKey()));
+		System.out.println(resultado.values());
+
+		
+		em5.close();
+		
 //		Estado com maior número de notas como destinatário
 //		CNPJ/Nome da empresa que é a maior compradora em volume de vendas
 //		CNPJ/Nome da empresa que é a maior vendedora em volume de vendas
