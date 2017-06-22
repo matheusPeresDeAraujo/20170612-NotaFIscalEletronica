@@ -299,7 +299,7 @@ public class FrameCadastroNf extends JFrame{
 					String descricaoText = ""+Descricao.getText(); 
 					String precoText = ""+Preco.getText(); 
 					String quantidadeText = ""+Quantidade.getText();
-					float valorTotal = Integer.parseInt(Preco.getText()) * Integer.parseInt(Quantidade.getText());
+					Double valorTotal = Double.parseDouble(Preco.getText()) * Integer.parseInt(Quantidade.getText());
 					
 					modelItem.addRow(new Object[]{codigoText, descricaoText, precoText, quantidadeText, valorTotal});
 				
@@ -401,7 +401,7 @@ public class FrameCadastroNf extends JFrame{
 				List<Item> itens = new ArrayList<>();
 				
 				Double valorItens = 0.0;
-				for(int i = 0; i < modelItem.getColumnCount();i++){
+				for(int i = 0; i < modelItem.getRowCount();i++){
 					
 					Item item = new Item();
 					
@@ -412,14 +412,14 @@ public class FrameCadastroNf extends JFrame{
 					
 					item.setCodigo(Integer.parseInt(cl0));
 					item.setDescricao(cl1);
-					item.setQuant(Integer.parseInt(cl0));
-					item.setValor(Double.parseDouble(cl3));
-					valorItens +=item.getValor();
+					item.setQuant(Integer.parseInt(cl3));
+					item.setValor(Double.parseDouble(cl2));
+					valorItens +=item.getValor()*item.getQuant();
 					itens.add(item);
 					
 				}
 
-				String quant = ""+modelItem.getColumnCount();
+				String quant = ""+modelItem.getRowCount();
 				nf.setQuantItens(Integer.parseInt(quant));
 				nf.setValorItens(valorItens);
 				nf.setItens(itens);
