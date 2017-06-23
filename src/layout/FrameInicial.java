@@ -372,7 +372,8 @@ public class FrameInicial extends JFrame{
 				
 				TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n join fetch n.itens where n.notaFiscalNumero = :numero", NotaFiscal.class);
 				NotaFiscal nf = query.setParameter("numero",i).getSingleResult();
-					  
+				
+				
 				FrameCadastroNf editar = new FrameCadastroNf(nf, new Evento<NotaFiscal>() {
 
 					@Override
@@ -391,9 +392,6 @@ public class FrameInicial extends JFrame{
 									
 							});
 							
-//							EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
-//							em.getTransaction().begin();
-							System.out.println("Informação a ser passada: "+info);
 							
 							em.merge(info);
 							
