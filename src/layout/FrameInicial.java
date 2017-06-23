@@ -234,14 +234,29 @@ public class FrameInicial extends JFrame{
 				resultado.put(name, quant);
 			}
 		}
+		
 		System.out.println(resultado.get(resultado.firstKey()));
-		System.out.println(resultado.values());
-
 		
 		em5.close();
 		
 //		Estado com maior número de notas como destinatário
+		EntityManager em7 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+		TypedQuery<Object[]> query7 = em7.createQuery("select n.destinatario.estado, count(*) from Nf n GROUP by n.destinatario.estado", Object[].class);
+		List<Object[]> result7 = query7.getResultList();
+		
+		System.out.println(result7);
+		
+		em7.close();
+		
 //		CNPJ/Nome da empresa que é a maior compradora em volume de vendas
+		EntityManager em8 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+		TypedQuery<Object[]> query8 = em8.createQuery("select n.destinatario.razaoSocial, count(*) from Nf n GROUP by n.destinatario.razaoSocial", Object[].class);
+		List<Object[]> result8 = query8.getResultList();
+		
+		System.out.println(result8);
+		
+		em8.close();
+		
 //		CNPJ/Nome da empresa que é a maior vendedora em volume de vendas
 //		Total de notas com valor superior a 10mil
 //		Total de notas com mais de 10 itens
