@@ -77,6 +77,7 @@ public class FrameCadastroNf extends JFrame{
 	ActionListener persistirNf;
 	ActionListener cancelar;	
 	
+//	Atributo necessário para a modificação de uma nota
 	NotaFiscal nf = new NotaFiscal();
 	
 	public FrameCadastroNf(Evento evento){
