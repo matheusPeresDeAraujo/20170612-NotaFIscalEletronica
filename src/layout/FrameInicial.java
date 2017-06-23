@@ -362,29 +362,24 @@ public class FrameInicial extends JFrame{
 					JOptionPane.showMessageDialog(null, "Selecione o registro a ser Editado","Alerta", JOptionPane.PLAIN_MESSAGE);
 					return;
 				}
-				
-				
+
+//				Captura do numero da nota fiscal selecionada
+				String j =""+tabela.getValueAt(tabela.getSelectedRow(), 0);
+				long i = Long.parseLong(j);
 				
 				EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
 				em.getTransaction().begin();
 				
-				String j =""+tabela.getValueAt(tabela.getSelectedRow(), 0);
-				long i = Long.parseLong(j);
-				
 				TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n join fetch n.itens where n.notaFiscalNumero = :numero", NotaFiscal.class);
-				NotaFiscal result = query.setParameter("numero",i).getSingleResult();
-				System.out.println(result);
+				NotaFiscal nf = query.setParameter("numero",i).getSingleResult();
 					  
-				em.getTransaction().commit();
-				em.close();
-				
-				NotaFiscal nf = result;
-				FrameCadastroNf cadastro = new FrameCadastroNf(nf, new Evento<NotaFiscal>() {
+				FrameCadastroNf editar = new FrameCadastroNf(nf, new Evento<NotaFiscal>() {
 
 					@Override
 					public void notificar(NotaFiscal info) {
 						
 						try {
+							model.removeRow(tabela.getSelectedRow());
 							
 							model.addRow(new Object[]{
 									info.getNotaFiscalNumero(),
@@ -396,10 +391,11 @@ public class FrameInicial extends JFrame{
 									
 							});
 							
-							EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
-							em.getTransaction().begin();
+//							EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
+//							em.getTransaction().begin();
+							System.out.println("Informação a ser passada: "+info);
 							
-							em.persist(info);
+							em.merge(info);
 							
 							em.getTransaction().commit();
 							em.close();
@@ -414,8 +410,8 @@ public class FrameInicial extends JFrame{
 					}
 				});
 				
-				cadastro.setEnabled(true);
-				cadastro.addWindowListener(new WindowAdapter() {
+				editar.setEnabled(true);
+				editar.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
 							setEnabled(true);

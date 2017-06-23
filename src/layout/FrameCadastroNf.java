@@ -75,7 +75,9 @@ public class FrameCadastroNf extends JFrame{
 	ActionListener addItem;
 	ActionListener remItem;
 	ActionListener persistirNf;
-	ActionListener cancelar;
+	ActionListener cancelar;	
+	
+	NotaFiscal nf = new NotaFiscal();
 	
 	public FrameCadastroNf(Evento evento){
 		
@@ -84,7 +86,11 @@ public class FrameCadastroNf extends JFrame{
 	}
 	
 	public FrameCadastroNf(NotaFiscal nf, Evento evento){
+		
 		this.contrutorJanela(evento);
+		
+//		Nota fiscal que esta sendo editada é a nota fiscal que selecionei. Necessário para realizar o merge, principalmente pelo ID.
+		this.nf = nf;
 		
 		numero.setText(""+nf.getNotaFiscalNumero());
 		modelo.setText(nf.getModelo());
@@ -107,11 +113,7 @@ public class FrameCadastroNf extends JFrame{
 		informacoes.setText(nf.getInformacoes());
 		
 		for(int i = 0; i <nf.getItens().size(); i++){
-			
-//			Codigo
-//			Descricao 
-//			Preco
-//			Quantidade
+	
 			actionAdicionarItem();
 			modelItem.addRow(new Object[]{nf.getItens().get(i).getCodigo(), nf.getItens().get(i).getDescricao(), nf.getItens().get(i).getValor(),nf.getItens().get(i).getQuant(), nf.getItens().get(i).getValor() * nf.getItens().get(i).getQuant()});
 			
@@ -430,7 +432,6 @@ public class FrameCadastroNf extends JFrame{
 				destinatario.setRazaoSocial(nomeDestinatario.getText());
 				
 				
-				NotaFiscal nf = new NotaFiscal();
 				nf.setDataEmissao(new Date());
 				nf.setDataOperacao(new Date());
 				nf.setEmitente(emitente);

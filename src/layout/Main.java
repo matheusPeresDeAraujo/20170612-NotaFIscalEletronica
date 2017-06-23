@@ -58,17 +58,33 @@ public class Main {
 //		em.getTransaction().commit();
 //		em.close();
 		
-		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query = em.createQuery("select n.emitente.estado, count(*) from Nf n GROUP by n.emitente.estado", Object[].class);
-		List<Object[]> result = query.getResultList();
+//		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+//		TypedQuery<Object[]> query = em.createQuery("select n.emitente.estado, count(*) from Nf n GROUP by n.emitente.estado", Object[].class);
+//		List<Object[]> result = query.getResultList();
+//		
+//		for(Object[] itens : result){
+//			String name = (String) itens[0];
+//			long quant = (Long) itens[1];
+//			
+//			System.out.println("Nome é: " + name + "  Quantidade é: " + quant);
+//	
+//		}
+//		
+//		em.close();
 		
-		for(Object[] itens : result){
-			String name = (String) itens[0];
-			long quant = (Long) itens[1];
-			
-			System.out.println("Nome é: " + name + "  Quantidade é: " + quant);
-	
-		}
+		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+		TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n join fetch n.itens where n.notaFiscalNumero = 1", NotaFiscal.class);
+		NotaFiscal result = query.getSingleResult();
+		
+		Pessoa emitente = result.getEmitente();
+		emitente.setRazaoSocial("modifi");
+		result.setEmitente(emitente);
+		
+		em.getTransaction().begin();
+		
+		em.merge(result);
+
+		em.getTransaction().commit();
 		
 		em.close();
 	}
