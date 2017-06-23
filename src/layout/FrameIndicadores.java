@@ -163,35 +163,38 @@ public class FrameIndicadores extends JFrame{
 		
 //		Estado com maior número de notas como destinatário
 		EntityManager em7 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query7 = em7.createQuery("select n.destinatario.estado, count(*) from Nf n GROUP by n.destinatario.estado", Object[].class);
-		List<Object[]> result7 = query7.getResultList();
+		TypedQuery<Object[]> query7 = em7.createQuery("select n.destinatario.estado, count(*) as num from Nf n GROUP by n.destinatario.estado order by num desc", Object[].class);
+		Object[] result7 = query7.setMaxResults(1).getSingleResult();
 		
-		result.add(""+result7);
+		String estado = ""+result7[0];
+		result.add(estado);
 		
 		em7.close();
 		
 //		CNPJ/Nome da empresa que é a maior compradora em volume de vendas
 		EntityManager em8 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query8 = em8.createQuery("select n.destinatario.razaoSocial, count(*) from Nf n GROUP by n.destinatario.razaoSocial", Object[].class);
-		List<Object[]> result8 = query8.getResultList();
+		TypedQuery<Object[]> query8 = em8.createQuery("select n.destinatario.razaoSocial, sum(n.valorItens) as soma from Nf n GROUP by n.destinatario.razaoSocial order by soma desc", Object[].class);
+		Object[] result8 = query8.setMaxResults(1).getSingleResult();
 		
-		result.add(""+result8);
+		String razaoSocial = ""+result8[0];
+		result.add(razaoSocial);
 		
 		em8.close();
 		
 //		CNPJ/Nome da empresa que é a maior vendedora em volume de vendas
 		EntityManager em9 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query9 = em9.createQuery("select n.emitente.razaoSocial, count(*) from Nf n GROUP by n.emitente.razaoSocial", Object[].class);
-		List<Object[]> result9 = query9.getResultList();
+		TypedQuery<Object[]> query9 = em9.createQuery("select n.emitente.razaoSocial, sum(n.valorItens) as soma from Nf n GROUP by n.emitente.razaoSocial order by soma desc", Object[].class);
+		Object[] result9 = query9.setMaxResults(1).getSingleResult();
 		
-		result.add(""+result9);
+		String razaoSocial2 = ""+result9[0];
+		result.add(razaoSocial2);
 		
 		em9.close();
 		
 //		Total de notas com valor superior a 10mil
 		EntityManager em10 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query10 = em10.createQuery("select count(n.valorItens) from Nf n where n.valorItens > 10000", Object[].class);
-		List<Object[]> result10 = query10.getResultList();
+		TypedQuery<Long> query10 = em10.createQuery("select count(n.valorItens) from Nf n where n.valorItens > 10000", Long.class);
+		Long result10 = query10.getSingleResult();
 		
 		result.add(""+result10);
 		
@@ -199,8 +202,8 @@ public class FrameIndicadores extends JFrame{
 		
 //		Total de notas com mais de 10 itens
 		EntityManager em11 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query11 = em11.createQuery("select count(n.quantItens) from Nf n where n.quantItens > 10", Object[].class);
-		List<Object[]> result11 = query11.getResultList();
+		TypedQuery<Long> query11 = em11.createQuery("select count(n.quantItens) from Nf n where n.quantItens > 10", Long.class);
+		Long result11 = query11.getSingleResult();
 		
 		result.add(""+result11);
 		
