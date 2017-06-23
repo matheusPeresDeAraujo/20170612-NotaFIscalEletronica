@@ -75,11 +75,47 @@ public class FrameCadastroNf extends JFrame{
 	ActionListener addItem;
 	ActionListener remItem;
 	ActionListener persistirNf;
+	ActionListener cancelar;
 	
 	public FrameCadastroNf(Evento evento){
 		
 		this.contrutorJanela(evento);
 		
+	}
+	
+	public FrameCadastroNf(NotaFiscal nf, Evento evento){
+		this.contrutorJanela(evento);
+		
+		numero.setText(""+nf.getNotaFiscalNumero());
+		modelo.setText(nf.getModelo());
+		natureza.setText(nf.getNatureza());
+	    dataOperacao.setText(""+nf.getDataOperacao());
+	    dataEmissao.setText(""+nf.getDataEmissao());
+	    
+	    identificacaoEmitente.setText(nf.getEmitente().getCnpjCpf());
+		nomeEmitente.setText(nf.getEmitente().getRazaoSocial());
+		inscricaoEmitente.setText(nf.getEmitente().getInscricaoEstadual());
+		estadoEmitente.setText(nf.getEmitente().getEstado());
+		
+		identificacaoDestinatario.setText(nf.getDestinatario().getCnpjCpf());
+		nomeDestinatario.setText(nf.getDestinatario().getRazaoSocial());
+		inscricaoDestinatario.setText(nf.getDestinatario().getInscricaoEstadual());
+		estadoDestinatario.setText(nf.getDestinatario().getEstado());
+		
+		quantidadeItens.setText(""+nf.getQuantItens());
+		valorTotal.setText(""+nf.getValorItens());
+		informacoes.setText(nf.getInformacoes());
+		
+		for(int i = 0; i <nf.getItens().size(); i++){
+			
+//			Codigo
+//			Descricao 
+//			Preco
+//			Quantidade
+			actionAdicionarItem();
+			modelItem.addRow(new Object[]{nf.getItens().get(i).getCodigo(), nf.getItens().get(i).getDescricao(), nf.getItens().get(i).getValor(),nf.getItens().get(i).getQuant(), nf.getItens().get(i).getValor() * nf.getItens().get(i).getQuant()});
+			
+		}
 	}
 	
 	private void contrutorJanela(Evento evento){
@@ -126,11 +162,11 @@ public class FrameCadastroNf extends JFrame{
 		Object[] colunasItem = new String[]{"Codigo","Descricao","Preco","Quantidade","Valor Total"};
 
 		Object[][] dadosItem = new Object[][]{
-		       {"100", "Item 1", "100.00", "5", "500.00"},
-		       {"200", "Item 2", "100.00", "5", "500.00"},
-		       {"300", "Item 3", "100.00", "5", "500.00"},
-		       {"400", "Item 4", "100.00", "5", "500.00"},
-		       {"500", "Item 5", "100.00", "5", "500.00"}
+//		       {"100", "Item 1", "100.00", "5", "500.00"},
+//		       {"200", "Item 2", "100.00", "5", "500.00"},
+//		       {"300", "Item 3", "100.00", "5", "500.00"},
+//		       {"400", "Item 4", "100.00", "5", "500.00"},
+//		       {"500", "Item 5", "100.00", "5", "500.00"}
 		};
 
 		modelItem = new DefaultTableModel(dadosItem , colunasItem );
@@ -362,6 +398,8 @@ public class FrameCadastroNf extends JFrame{
 		
 		this.actionPersistirNf(evento);
 		gravarNf.addActionListener(persistirNf);
+		this.actionCancelar(evento);
+		cancelarNf.addActionListener(cancelar);
 		
 		cadastroPanelControler.setLayout(new BoxLayout(cadastroPanelControler, BoxLayout.X_AXIS));
 		cadastroPanelControler.add(gravarNf);
@@ -427,10 +465,25 @@ public class FrameCadastroNf extends JFrame{
 				
 				evento.notificar(nf);
 				dispose();
-				setEnabled(true);
 				
 			}
 		};
 		
+	}
+	
+	private void actionCancelar(Evento evento){
+		
+		cancelar = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+//				Retorno uma nota fiscal vazia. Futuramente alterar parametro para aceitar tipo evento de retorno
+				NotaFiscal nf = new NotaFiscal();
+				evento.notificar(nf);
+				dispose();
+				
+			}
+		};
 	}
 }

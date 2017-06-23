@@ -50,6 +50,7 @@ public class FrameInicial extends JFrame{
 	ActionListener acessIndicador;
 	ActionListener acessCadastro;
 	ActionListener remove;
+	ActionListener acessEditor;
 
 	
 	public FrameInicial(){
@@ -73,8 +74,8 @@ public class FrameInicial extends JFrame{
 		setJMenuBar(menuBar);
 		getContentPane().add(toolbar, BorderLayout.PAGE_START);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(500, 200);
-//		frame.pack();
+//		setSize(500, 200);
+		pack();
 		setVisible(true);
 	}
 	
@@ -142,6 +143,8 @@ public class FrameInicial extends JFrame{
 		btn1.addActionListener(acessCadastro);
 		this.actionRemove();
 		btn2.addActionListener(remove);
+		this.actionEditor();
+		btn3.addActionListener(acessEditor);
 		
 		toolbar.setFloatable(false);
 		toolbar.add(btn1);
@@ -305,24 +308,32 @@ public class FrameInicial extends JFrame{
 					@Override
 					public void notificar(NotaFiscal info) {
 						
-						model.addRow(new Object[]{
-								info.getNotaFiscalNumero(),
-								info.getDataEmissao(),
-								info.getEmitente().getCnpjCpf(),
-								info.getEmitente().getRazaoSocial(),
-								info.getQuantItens(),
-								info.getValorItens()
-								
-						});
-						setEnabled(true);
-						
-						EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
-						em.getTransaction().begin();
-						
-						em.persist(info);
-						
-						em.getTransaction().commit();
-						em.close();
+						try {
+							
+							model.addRow(new Object[]{
+									info.getNotaFiscalNumero(),
+									info.getDataEmissao(),
+									info.getEmitente().getCnpjCpf(),
+									info.getEmitente().getRazaoSocial(),
+									info.getQuantItens(),
+									info.getValorItens()
+									
+							});
+							
+							EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
+							em.getTransaction().begin();
+							
+							em.persist(info);
+							
+							em.getTransaction().commit();
+							em.close();
+							
+							
+						} catch (Exception e2) {
+							// TODO: handle exception
+						} finally {
+							setEnabled(true);
+						}
 						
 					}
 				});
@@ -338,6 +349,82 @@ public class FrameInicial extends JFrame{
 			}
 		};
 		
+	}
+	
+	private void actionEditor(){
+		
+		acessEditor = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (tabela.getSelectedRow()==-1){
+					JOptionPane.showMessageDialog(null, "Selecione o registro a ser Editado","Alerta", JOptionPane.PLAIN_MESSAGE);
+					return;
+				}
+				
+				
+				
+				EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
+				em.getTransaction().begin();
+				
+				String j =""+tabela.getValueAt(tabela.getSelectedRow(), 0);
+				long i = Long.parseLong(j);
+				
+				TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n join fetch n.itens where n.notaFiscalNumero = :numero", NotaFiscal.class);
+				NotaFiscal result = query.setParameter("numero",i).getSingleResult();
+				System.out.println(result);
+					  
+				em.getTransaction().commit();
+				em.close();
+				
+				NotaFiscal nf = result;
+				FrameCadastroNf cadastro = new FrameCadastroNf(nf, new Evento<NotaFiscal>() {
+
+					@Override
+					public void notificar(NotaFiscal info) {
+						
+						try {
+							
+							model.addRow(new Object[]{
+									info.getNotaFiscalNumero(),
+									info.getDataEmissao(),
+									info.getEmitente().getCnpjCpf(),
+									info.getEmitente().getRazaoSocial(),
+									info.getQuantItens(),
+									info.getValorItens()
+									
+							});
+							
+							EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
+							em.getTransaction().begin();
+							
+							em.persist(info);
+							
+							em.getTransaction().commit();
+							em.close();
+							
+							
+						} catch (Exception e2) {
+							// TODO: handle exception
+						} finally {
+							setEnabled(true);
+						}
+						
+					}
+				});
+				
+				cadastro.setEnabled(true);
+				cadastro.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+							setEnabled(true);
+					}
+				});
+				setEnabled(false);
+				
+			}
+		};
 	}
 	
 	private void actionRemove(){
@@ -381,7 +468,7 @@ public class FrameInicial extends JFrame{
 		
 		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
 //		Busca de notas fiscais.
-		TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n", NotaFiscal.class);
+		TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n order by n.notaFiscalNumero", NotaFiscal.class);
 		List<NotaFiscal> result = query.getResultList();
 		System.out.println(result);
 		
