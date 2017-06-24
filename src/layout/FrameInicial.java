@@ -12,10 +12,21 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.FlushModeType;
+import javax.persistence.LockModeType;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.metamodel.Metamodel;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -60,13 +71,12 @@ public class FrameInicial extends JFrame{
 	}
 	
 	private void construtorJanela(){
-
-		JPanel telaInicial = new JPanel();
 		
 		this.construtorTabelaModel();
 		this.construtorMenuBar();
 		this.construtorToobar();
 		
+		JPanel telaInicial = new JPanel();
 		telaInicial.setLayout(new BoxLayout(telaInicial, BoxLayout.Y_AXIS));
 		telaInicial.add(painelTabela);
 		
@@ -133,9 +143,9 @@ public class FrameInicial extends JFrame{
 	
 	private void construtorToobar(){
 		
-		JButton btn1 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/adicionar.png"));
-		JButton btn2 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/remover.png"));
-		JButton btn3 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/3.png"));
+		JButton btn1 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/adicionar2.png"));
+		JButton btn2 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/remover2.png"));
+		JButton btn3 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/editar.png"));
 		JButton btn4 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/4.png"));
 		JButton btn5 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/5.png"));
 
@@ -354,18 +364,24 @@ public class FrameInicial extends JFrame{
 	
 	private void buscaNf(){
 		
-		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-//		Busca de notas fiscais.
-		TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n order by n.notaFiscalNumero", NotaFiscal.class);
-		List<NotaFiscal> result = query.getResultList();
-		System.out.println(result);
+		EntityManager em = null;
 		
-		for(NotaFiscal notas : result){
+//		Busca de notas fiscais cadastradas em banco.
+		try{
+		
+			em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+			TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n order by n.notaFiscalNumero", NotaFiscal.class);
+			List<NotaFiscal> result = query.getResultList();
 			
-			model.addRow(new Object[]{notas.getNotaFiscalNumero(), notas.getDataEmissao(), notas.getEmitente().getCnpjCpf(), notas.getEmitente().getRazaoSocial(), notas.getQuantItens(), notas.getValorItens()});
-	
-		}
-		em.close();	
+			for(NotaFiscal notas : result){
+				model.addRow(new Object[]{notas.getNotaFiscalNumero(), notas.getDataEmissao(), notas.getEmitente().getCnpjCpf(), notas.getEmitente().getRazaoSocial(), notas.getQuantItens(), notas.getValorItens()});
+			}
+			
+		}catch(Exception e){
+			
+		}finally {
+			em.close();
+		}	
 		
 	}
 	
