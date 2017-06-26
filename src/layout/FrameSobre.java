@@ -19,7 +19,13 @@ public class FrameSobre extends JFrame{
 			+ "<H1> TRABALHO MODULAR  "
 			+ "</HTML>");
 	JLabel equipe = new JLabel("<HTML>  Alessandro, <BR>Frederico, <BR>Matheus  </HTML>");
-	JLabel conteudo = new JLabel("<HTML>  Trabalho desonvolvido aplicando as tecnicas aprendidas em sala de aula e pesquisas relacionadas.  </HTML>");
+	JLabel conteudo = new JLabel("<HTML>  Trabalho desonvolvido aplicando as tecnicas aprendidas em sala de aula e pesquisas relacionadas.  "
+			+ "Sistema desenvolvido para cadastro de notas fiscais, utilizando a linguagem java persistindo as informações em um banco de dados."
+			+ "Para a criação dos layouts, forma aplicados os coceitos de java swing."
+			+ "Tratamento de exceções, utilizando os comandos TRY e CATCH."
+			+ "Aplicado a todo o projeto os conceitos de orientação a objeto."
+			+ "Utilizado o SGBD PostgreSQL"
+			+ "Manipulação de dados, foram utilizados os principais comandos SQL, 'insert', 'select', 'update' e 'delete'</HTML>");
 	
 //	Metodo construtor da frame sobre.
 	public FrameSobre(){

@@ -483,9 +483,7 @@ public class FrameCadastroNf extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-//				Retorno uma nota fiscal vazia. Futuramente alterar parametro para aceitar tipo evento de retorno
-				evento.notificar2();
-				
+				evento.notificarCancelar();
 				dispose();
 				
 			}

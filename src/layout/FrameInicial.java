@@ -255,9 +255,12 @@ public class FrameInicial extends JFrame{
 						}
 						
 					}
-					public void notificar2(){
+					
+					@Override
+					public void notificarCancelar(){
 						setEnabled(true);
 					}
+					
 				});
 				cadastro.setEnabled(true);
 				cadastro.addWindowListener(new WindowAdapter() {
@@ -330,10 +333,10 @@ public class FrameInicial extends JFrame{
 					}
 
 					@Override
-					public void notificar2() {
-						// TODO Auto-generated method stub
+					public void notificarCancelar() {
 						setEnabled(true);
 					}
+					
 				});
 				
 				editar.setEnabled(true);
