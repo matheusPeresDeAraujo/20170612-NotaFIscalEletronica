@@ -172,7 +172,11 @@ public class FrameCadastroNf extends JFrame{
 //		       {"500", "Item 5", "100.00", "5", "500.00"}
 		};
 
-		modelItem = new DefaultTableModel(dadosItem , colunasItem );
+		modelItem = new DefaultTableModel(dadosItem , colunasItem ){
+			public boolean isCellEditable(int row, int col){
+				return false;
+			}
+		};
 		tabelaItem.setModel(modelItem);
 		tabelaItem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		painelTabelaItem = new JScrollPane();
@@ -190,8 +194,8 @@ public class FrameCadastroNf extends JFrame{
 		
 		
 		JPanel cadastroPanelNf1 = new JPanel();
-		//cadastroPanelNf1.setLayout(new BoxLayout(cadastroPanelNf1, BoxLayout.X_AXIS));
-		cadastroPanelNf1.setLayout(new FlowLayout(FlowLayout.LEFT));
+		cadastroPanelNf1.setLayout(new BoxLayout(cadastroPanelNf1, BoxLayout.X_AXIS));
+//		cadastroPanelNf1.setLayout(new FlowLayout(FlowLayout.LEFT));
 		cadastroPanelNf1.add(new JLabel("   Numero NF: "));
 		cadastroPanelNf1.add(numero);
 		cadastroPanelNf1.add(new JLabel("   Modelo: "));
@@ -332,7 +336,7 @@ public class FrameCadastroNf extends JFrame{
 				int result = JOptionPane.showConfirmDialog(null, inputs, "Insira as informações!", JOptionPane.PLAIN_MESSAGE);
 
 				if (Codigo.getText() == null || Codigo.getText().equals("") || Descricao.getText() == null || Descricao.getText().equals("") || Preco.getText() == null || Preco.getText().equals("") || Quantidade.getText() == null || Quantidade.getText().equals(""))
-			           return;
+					return;
 				
 					String codigoText = ""+Codigo.getText(); 
 					String descricaoText = ""+Descricao.getText(); 
@@ -356,7 +360,6 @@ public class FrameCadastroNf extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				//System.out.println(tabela.getSelectedRow());
 				if (tabelaItem.getSelectedRow()==-1){
 					JOptionPane.showMessageDialog(null, "Selecione o registro a ser apagado","Alerta", JOptionPane.PLAIN_MESSAGE);
 					return;

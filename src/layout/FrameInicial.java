@@ -101,7 +101,11 @@ public class FrameInicial extends JFrame{
 //		       {"500", "2017-06-13", "10388767618", "Matheus", "100", "1000.00"}
 		};
 
-		model = new DefaultTableModel(dados , colunas );
+		model = new DefaultTableModel(dados , colunas ){
+			public boolean isCellEditable(int row, int col){
+				return false;
+			}
+		};
 		tabela = new JTable();
 		tabela.setModel(model);
 		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -160,8 +164,8 @@ public class FrameInicial extends JFrame{
 		toolbar.add(btn1);
 		toolbar.add(btn2);
 		toolbar.add(btn3);
-		toolbar.add(btn4);
-		toolbar.add(btn5);
+//		toolbar.add(btn4);
+//		toolbar.add(btn5);
 		
 	}
 	
@@ -196,6 +200,13 @@ public class FrameInicial extends JFrame{
 
 				FrameIndicadores fi = new FrameIndicadores();
 				
+				fi.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+							setEnabled(true);
+					}
+				});
+				setEnabled(false);
 			}
 		};
 	}
@@ -212,6 +223,8 @@ public class FrameInicial extends JFrame{
 					@Override
 					public void notificar(NotaFiscal info) {
 						
+						EntityManager em = null;
+						
 						try {
 							
 							model.addRow(new Object[]{
@@ -224,18 +237,18 @@ public class FrameInicial extends JFrame{
 									
 							});
 							
-							EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
+							em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
 							em.getTransaction().begin();
 							
 							em.persist(info);
 							
 							em.getTransaction().commit();
-							em.close();
 							
 							
 						} catch (Exception e2) {
 							// TODO: handle exception
 						} finally {
+							em.close();
 							setEnabled(true);
 						}
 						
