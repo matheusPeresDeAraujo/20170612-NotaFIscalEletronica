@@ -348,11 +348,20 @@ public class FrameCadastroNf extends JFrame{
 					String descricaoText = ""+Descricao.getText(); 
 					String precoText = ""+Preco.getText(); 
 					String quantidadeText = ""+Quantidade.getText();
-					Double valorTotal = Double.parseDouble(Preco.getText()) * Integer.parseInt(Quantidade.getText());
+					Double valorFinal = Double.parseDouble(Preco.getText()) * Integer.parseInt(Quantidade.getText());
 					
-					modelItem.addRow(new Object[]{codigoText, descricaoText, precoText, quantidadeText, valorTotal});
-				
-				
+					modelItem.addRow(new Object[]{codigoText, descricaoText, precoText, quantidadeText, valorFinal});
+					
+					if(quantidadeItens.getText() == null || quantidadeItens.getText().equals("") ||valorTotal.getText() == null || valorTotal.getText().equals("")){
+						quantidadeItens.setText("" + 1);
+						valorTotal.setText("" + valorFinal);
+						return;
+					}
+					
+					int quant = 1 + Integer.parseInt(quantidadeItens.getText());
+					quantidadeItens.setText("" + quant);
+					double valorF = valorFinal + Double.parseDouble(valorTotal.getText());
+					valorTotal.setText("" + valorF);
 			}
 		};
 		
@@ -376,9 +385,15 @@ public class FrameCadastroNf extends JFrame{
 				if (n == 1){
 					return;
 				}
+				
+				
+				int quant = -1 + Integer.parseInt(quantidadeItens.getText());
+				quantidadeItens.setText("" + quant);
+				String j =""+tabelaItem.getValueAt(tabelaItem.getSelectedRow(), 4);
+				double valorF = - Double.parseDouble(j) + Double.parseDouble(valorTotal.getText());
+				valorTotal.setText("" + valorF);
+				
 				modelItem.removeRow(tabelaItem.getSelectedRow());
-				
-				
 			}
 		};
 	}
