@@ -205,8 +205,8 @@ public class FrameCadastroNf extends JFrame{
 		
 		
 		JPanel cadastroPanelNf2 = new JPanel();
-		//cadastroPanelNf2.setLayout(new BoxLayout(cadastroPanelNf2, BoxLayout.X_AXIS));
-		cadastroPanelNf2.setLayout(new FlowLayout(FlowLayout.LEFT));
+		cadastroPanelNf2.setLayout(new BoxLayout(cadastroPanelNf2, BoxLayout.X_AXIS));
+//		cadastroPanelNf2.setLayout(new FlowLayout(FlowLayout.LEFT));
 		cadastroPanelNf2.add(new JLabel("   Data Operação: "));
 		cadastroPanelNf2.add(dataOperacao);
 		cadastroPanelNf2.add(new JLabel("   Data Emissão: "));
@@ -484,8 +484,8 @@ public class FrameCadastroNf extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 //				Retorno uma nota fiscal vazia. Futuramente alterar parametro para aceitar tipo evento de retorno
-				NotaFiscal nf = new NotaFiscal();
-				evento.notificar(nf);
+				evento.notificar2();
+				
 				dispose();
 				
 			}

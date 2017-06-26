@@ -222,6 +222,8 @@ public class FrameInicial extends JFrame{
 
 					@Override
 					public void notificar(NotaFiscal info) {
+						System.out.println("cheguei aki");
+							
 						
 						EntityManager em = null;
 						
@@ -252,6 +254,9 @@ public class FrameInicial extends JFrame{
 							setEnabled(true);
 						}
 						
+					}
+					public void notificar2(){
+						setEnabled(true);
 					}
 				});
 				cadastro.setEnabled(true);
@@ -322,6 +327,12 @@ public class FrameInicial extends JFrame{
 							setEnabled(true);
 						}
 						
+					}
+
+					@Override
+					public void notificar2() {
+						// TODO Auto-generated method stub
+						setEnabled(true);
 					}
 				});
 				
