@@ -188,7 +188,11 @@ public class FrameCadastroNf extends JFrame{
 		
 		numero.setColumns(5);
 		modelo.setColumns(10);
+		modelo.setText("Modelo 1-A");
+		modelo.setEditable(false);
 		natureza.setColumns(5);
+		natureza.setText("Venda");
+		natureza.setEditable(false);
 		dataOperacao.setColumns(10);
 		dataEmissao.setColumns(10);
 		
@@ -289,7 +293,9 @@ public class FrameCadastroNf extends JFrame{
 	private void construtorPanelItem(){
 		
 		quantidadeItens.setColumns(5);
+		quantidadeItens.setEditable(false);
 		valorTotal.setColumns(12);
+		valorTotal.setEditable(false);
 		informacoes.setColumns(10);
 		this.actionAdicionarItem();
 		adicionarItem.addActionListener(addItem);

@@ -147,11 +147,11 @@ public class FrameInicial extends JFrame{
 	
 	private void construtorToobar(){
 		
-		JButton btn1 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/adicionar2.png"));
-		JButton btn2 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/remover2.png"));
-		JButton btn3 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/editar.png"));
-		JButton btn4 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/4.png"));
-		JButton btn5 = new JButton(new ImageIcon("/home/matheus/20170612-NotaFIscalEletronica/src/IMG/5.png"));
+		JButton btn1 = new JButton(new ImageIcon("src/IMG/adicionar2.png"));
+		JButton btn2 = new JButton(new ImageIcon("src/IMG/remover2.png"));
+		JButton btn3 = new JButton(new ImageIcon("src/IMG/editar.png"));
+		JButton btn4 = new JButton(new ImageIcon("src/IMG/4.png"));
+		JButton btn5 = new JButton(new ImageIcon("src/IMG/5.png"));
 
 		this.actionAcessCadastro();
 		btn1.addActionListener(acessCadastro);
@@ -222,7 +222,6 @@ public class FrameInicial extends JFrame{
 
 					@Override
 					public void notificar(NotaFiscal info) {
-						System.out.println("cheguei aki");
 							
 						
 						EntityManager em = null;

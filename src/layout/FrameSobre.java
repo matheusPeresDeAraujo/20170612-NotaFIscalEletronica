@@ -16,16 +16,16 @@ public class FrameSobre extends JFrame{
 			+ "H1 {color: rgb(0,0,255)"
 			+ "}"
 			+ "</style>"
-			+ "<H1> TRABALHO MODULAR  "
+			+ "<H1> DESENVOLVIMENTO DE APLICAÇÕES ORIENTADAS A OBJETO "
 			+ "</HTML>");
-	JLabel equipe = new JLabel("<HTML>  Alessandro, <BR>Frederico, <BR>Matheus  </HTML>");
-	JLabel conteudo = new JLabel("<HTML>  Trabalho desonvolvido aplicando as tecnicas aprendidas em sala de aula e pesquisas relacionadas.  "
-			+ "Sistema desenvolvido para cadastro de notas fiscais, utilizando a linguagem java persistindo as informações em um banco de dados."
-			+ "Para a criação dos layouts, forma aplicados os coceitos de java swing."
-			+ "Tratamento de exceções, utilizando os comandos TRY e CATCH."
-			+ "Aplicado a todo o projeto os conceitos de orientação a objeto."
-			+ "Utilizado o SGBD PostgreSQL"
-			+ "Manipulação de dados, foram utilizados os principais comandos SQL, 'insert', 'select', 'update' e 'delete'</HTML>");
+	JLabel equipe = new JLabel("<HTML>  Equipe:<br><br>Alessandro da Costa Macanha <BR>Frederico Cassemiro Santos <BR>Matheus Peres de Araujo <br>Victor Souza<br></HTML>");
+	JLabel conteudo = new JLabel("<HTML> <br>Informações:<br>  "
+			+ "<br>Sistema desenvolvido para cadastro de notas fiscais, utilizando a linguagem java persistindo as informações em um banco de dados."
+			+ "<br>Para a criação dos layouts, foram aplicados os conceitos de java swing."
+			+ "<br>Tratamento de exceções, utilizando os comandos TRY e CATCH."
+			+ "<br>Aplicado a todo o projeto os conceitos de orientação a objeto."
+			+ "<br>Utilizado o SGBD PostgreSQL."
+			+ "<br>Manipulação de dados, foram utilizados os principais comandos SQL, 'insert', 'select', 'update' e 'delete'.</HTML>");
 	
 //	Metodo construtor da frame sobre.
 	public FrameSobre(){
