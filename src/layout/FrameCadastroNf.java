@@ -350,8 +350,10 @@ public class FrameCadastroNf extends JFrame{
 					String quantidadeText = ""+Quantidade.getText();
 					Double valorFinal = Double.parseDouble(Preco.getText()) * Integer.parseInt(Quantidade.getText());
 					
+//					Adiciona a linha na tabela
 					modelItem.addRow(new Object[]{codigoText, descricaoText, precoText, quantidadeText, valorFinal});
 					
+//					calcula valor para os campos valorTotal e quantidade
 					if(quantidadeItens.getText() == null || quantidadeItens.getText().equals("") ||valorTotal.getText() == null || valorTotal.getText().equals("")){
 						quantidadeItens.setText("" + 1);
 						valorTotal.setText("" + valorFinal);
@@ -386,13 +388,14 @@ public class FrameCadastroNf extends JFrame{
 					return;
 				}
 				
-				
+//				Realiza o calculo dos campos valorTotal e quantidade
 				int quant = -1 + Integer.parseInt(quantidadeItens.getText());
 				quantidadeItens.setText("" + quant);
 				String j =""+tabelaItem.getValueAt(tabelaItem.getSelectedRow(), 4);
 				double valorF = - Double.parseDouble(j) + Double.parseDouble(valorTotal.getText());
 				valorTotal.setText("" + valorF);
 				
+//				Somente após o calculo é removida a linha da tabela
 				modelItem.removeRow(tabelaItem.getSelectedRow());
 			}
 		};
@@ -442,6 +445,22 @@ public class FrameCadastroNf extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+//				Verificar se todos os campos foram preenchidos
+				if(numero.getText() == null || numero.getText().equals("") 
+						|| identificacaoEmitente.getText() == null || identificacaoEmitente.getText().equals("") 
+						|| nomeEmitente.getText() == null || nomeEmitente.getText().equals("") 
+						|| inscricaoEmitente.getText() == null || inscricaoEmitente.getText().equals("") 
+						|| estadoEmitente.getText() == null || estadoEmitente.getText().equals("") 
+						|| identificacaoDestinatario.getText() == null || identificacaoDestinatario.getText().equals("") 
+						|| nomeDestinatario.getText() == null || nomeDestinatario.getText().equals("") 
+						|| inscricaoDestinatario.getText() == null || inscricaoDestinatario.getText().equals("") 
+						|| estadoDestinatario.getText() == null || estadoDestinatario.getText().equals(""))
+					return;
+				System.out.println(modelItem.getRowCount());
+				if(modelItem.getRowCount()<1)
+					return;
+				
+//				Verificar a natureza das informações preenchidas
 				
 				Pessoa emitente = new Pessoa();
 				emitente.setCnpjCpf(identificacaoEmitente.getText());
