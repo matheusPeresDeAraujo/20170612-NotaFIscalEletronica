@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -228,9 +231,13 @@ public class FrameInicial extends JFrame{
 						
 						try {
 							
+							
+							DateFormat f = DateFormat.getDateInstance();
+							
+							
 							model.addRow(new Object[]{
 									info.getNotaFiscalNumero(),
-									info.getDataEmissao(),
+									f.format(info.getDataEmissao()),
 									info.getEmitente().getCnpjCpf(),
 									info.getEmitente().getRazaoSocial(),
 									info.getQuantItens(),
@@ -306,9 +313,11 @@ public class FrameInicial extends JFrame{
 						try {
 							model.removeRow(tabela.getSelectedRow());
 							
+							DateFormat f = DateFormat.getDateInstance();
+							
 							model.addRow(new Object[]{
 									info.getNotaFiscalNumero(),
-									info.getDataEmissao(),
+									f.format(info.getDataEmissao()),
 									info.getEmitente().getCnpjCpf(),
 									info.getEmitente().getRazaoSocial(),
 									info.getQuantItens(),
@@ -399,8 +408,12 @@ public class FrameInicial extends JFrame{
 			TypedQuery<NotaFiscal> query = em.createQuery("select n from Nf n order by n.notaFiscalNumero", NotaFiscal.class);
 			List<NotaFiscal> result = query.getResultList();
 			
+//			Formatação da data para visualização
+			DateFormat f = DateFormat.getDateInstance();
 			for(NotaFiscal notas : result){
-				model.addRow(new Object[]{notas.getNotaFiscalNumero(), notas.getDataEmissao(), notas.getEmitente().getCnpjCpf(), notas.getEmitente().getRazaoSocial(), notas.getQuantItens(), notas.getValorItens()});
+				
+				model.addRow(new Object[]{notas.getNotaFiscalNumero(), f.format(notas.getDataEmissao()), notas.getEmitente().getCnpjCpf(), notas.getEmitente().getRazaoSocial(), notas.getQuantItens(), notas.getValorItens()});
+			
 			}
 			
 		}catch(Exception e){

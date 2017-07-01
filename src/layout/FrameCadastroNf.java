@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Item;
 import model.NotaFiscal;
 import model.Pessoa;
+import sun.util.calendar.JulianCalendar;
 
 public class FrameCadastroNf extends JFrame{
 
@@ -211,9 +214,9 @@ public class FrameCadastroNf extends JFrame{
 		JPanel cadastroPanelNf2 = new JPanel();
 		cadastroPanelNf2.setLayout(new BoxLayout(cadastroPanelNf2, BoxLayout.X_AXIS));
 //		cadastroPanelNf2.setLayout(new FlowLayout(FlowLayout.LEFT));
-		cadastroPanelNf2.add(new JLabel("   Data Operação: "));
+		cadastroPanelNf2.add(new JLabel("   Data Operação(dd-mm-aaaa): "));
 		cadastroPanelNf2.add(dataOperacao);
-		cadastroPanelNf2.add(new JLabel("   Data Emissão: "));
+		cadastroPanelNf2.add(new JLabel("   Data Emissão(dd-mm-aaaa): "));
 		cadastroPanelNf2.add(dataEmissao);
 		
 		
@@ -340,9 +343,14 @@ public class FrameCadastroNf extends JFrame{
 				Quantidade};
 
 				int result = JOptionPane.showConfirmDialog(null, inputs, "Insira as informações!", JOptionPane.PLAIN_MESSAGE);
-
+				
 				if (Codigo.getText() == null || Codigo.getText().equals("") || Descricao.getText() == null || Descricao.getText().equals("") || Preco.getText() == null || Preco.getText().equals("") || Quantidade.getText() == null || Quantidade.getText().equals(""))
-					return;
+				{ 
+					JOptionPane.showMessageDialog(null, "Campo em Branco! ");
+					
+					//return;
+				}
+				
 				
 					String codigoText = ""+Codigo.getText(); 
 					String descricaoText = ""+Descricao.getText(); 
@@ -456,7 +464,7 @@ public class FrameCadastroNf extends JFrame{
 						|| inscricaoDestinatario.getText() == null || inscricaoDestinatario.getText().equals("") 
 						|| estadoDestinatario.getText() == null || estadoDestinatario.getText().equals(""))
 					return;
-				System.out.println(modelItem.getRowCount());
+//				Existencia de pelo menos um item
 				if(modelItem.getRowCount()<1)
 					return;
 				
@@ -476,8 +484,10 @@ public class FrameCadastroNf extends JFrame{
 				destinatario.setRazaoSocial(nomeDestinatario.getText());
 				
 				
-				nf.setDataEmissao(new Date());
-				nf.setDataOperacao(new Date());
+				nf.setDataEmissao(dplData(new String(""+dataEmissao.getText())));
+				
+				nf.setDataOperacao(dplData(new String(""+dataOperacao.getText())));
+				
 				nf.setEmitente(emitente);
 				nf.setDestinatario(destinatario);
 				nf.setInformacoes(informacoes.getText());
@@ -528,5 +538,35 @@ public class FrameCadastroNf extends JFrame{
 				
 			}
 		};
+	}
+	
+	private Date dplData(String dataText){
+		
+		List poss = new ArrayList();
+		List<Integer> vall = new ArrayList();
+		String data = dataText;
+		String subData = null;
+		
+		int pos0 = 0;
+		int pos = data.indexOf("-");
+		
+		while(pos != -1){
+			poss.add(new Integer(pos));
+			
+			subData = data.substring(pos0, pos);
+			
+			vall.add(new Integer(subData));
+			
+			data = data.substring(pos+1);
+			pos = data.indexOf("-");
+				
+		}
+		vall.add(Integer.parseInt(data));
+		
+		Calendar c = Calendar.getInstance();
+		c.set(vall.get(2), vall.get(1)-1, vall.get(0));
+		Date d = c.getTime();
+		
+		return d;
 	}
 }
