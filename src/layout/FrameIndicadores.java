@@ -12,21 +12,17 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
 public class FrameIndicadores extends JFrame{
-
-	JLabel ind1 = new JLabel("Total de Notas Fiscais cadastradas: ");
-	JLabel ind2 = new JLabel("Média de valor das Notas: ");
-	JLabel ind3 = new JLabel("Média de valor dos itens nas Notas: ");
-	JLabel ind4 = new JLabel("Maior valor de nota: ");
-	JLabel ind5 = new JLabel("Estado com maior numero de notas emitidas: ");
-	JLabel ind6 = new JLabel("Estado com maior numero de notas como destinatário: ");
-	JLabel ind7 = new JLabel("CNPJ/Nome da empresa que é a maior compradora em volume de vendas: ");
-	JLabel ind8 = new JLabel("CNPJ/Nome da empresa que é a maior vendedora em volume de vendas: ");
-	JLabel ind9 = new JLabel("Total de notas com valor superior a 10mil: ");
-	JLabel ind10 = new JLabel("Total de notas com mais de 10 itens: ");
 	
-	JPanel indicadores = new JPanel();
+//	Atributos necessários para a manipulação da tabela de indicadores
+	DefaultTableModel model;
+	JScrollPane  painelTabela;
+	JTable tabela = new JTable();
 	
 //	Metodo construtor da frame 
 	public FrameIndicadores(){
@@ -39,102 +35,74 @@ public class FrameIndicadores extends JFrame{
 	private void construtorJanela(){
 		
 		this.construtorPanelIndicador();
-		this.construtorPanelResultIndicador();
 		
-		this.add(indicadores);
-		setLayout(new FlowLayout(FlowLayout.LEFT));
+		JPanel telaInicial = new JPanel();
+		telaInicial.setLayout(new BoxLayout(telaInicial, BoxLayout.Y_AXIS));
+		telaInicial.add(painelTabela);
+		
+		add(telaInicial);
 		setVisible(true);
 		pack();
 		
 	}
 
-//	Construtor do Panel Sobre
 	private void construtorPanelIndicador(){
 
-		JPanel panelIndicador = new JPanel();
-		panelIndicador.setLayout(new BoxLayout(panelIndicador, BoxLayout.Y_AXIS));
+		Object[] colunas = new String[]{"Pesquisa","Resultado"};
 
-		panelIndicador.add(ind1);
-		panelIndicador.add(ind2);
-		panelIndicador.add(ind3);
-		panelIndicador.add(ind4);
-		panelIndicador.add(ind5);
-		panelIndicador.add(ind6);
-		panelIndicador.add(ind7);
-		panelIndicador.add(ind8);
-		panelIndicador.add(ind9);
-		panelIndicador.add(ind10);
+		Object[][] dados = new Object[][]{
+		};
+
+		model = new DefaultTableModel(dados , colunas ){
+			public boolean isCellEditable(int row, int col){
+				return false;
+			}
+		};
+		tabela = new JTable();
+		tabela.setModel(model);
+		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		painelTabela = new JScrollPane();
+		painelTabela.setViewportView(tabela);
 		
-		indicadores.add(panelIndicador);
+		// busca e inserção dos resultados na tabela
+		this.consultaIndicadores();
 		
 	}
+
 	
-	private void construtorPanelResultIndicador(){
+	private void consultaIndicadores(){
 		
-		JPanel panelResultIndicador = new JPanel();
-		panelResultIndicador.setLayout(new BoxLayout(panelResultIndicador, BoxLayout.Y_AXIS));
+		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();
 		
-		List<String> result = new ArrayList();
 		
-		this.consultaIndicadores(result);
-		
-		panelResultIndicador.add(new JLabel(result.get(0)));
-		panelResultIndicador.add(new JLabel(result.get(1)));
-		panelResultIndicador.add(new JLabel(result.get(2)));
-		panelResultIndicador.add(new JLabel(result.get(3)));
-		panelResultIndicador.add(new JLabel(result.get(4)));
-		panelResultIndicador.add(new JLabel(result.get(5)));
-		panelResultIndicador.add(new JLabel(result.get(6)));
-		panelResultIndicador.add(new JLabel(result.get(7)));
-		panelResultIndicador.add(new JLabel(result.get(8)));
-		panelResultIndicador.add(new JLabel(result.get(9)));
-		
-		indicadores.add(panelResultIndicador);
-	}
-	
-	private void consultaIndicadores(List<String> result){
-		
-//		Total de Notas Fiscais cadastradas
-		EntityManager em = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
+//		Total de Notas Fiscais cadastradas	
 		TypedQuery<Long> query = em.createQuery("select count(n) from Nf n", Long.class);
 		long result1 = query.getSingleResult();
+		model.addRow(new Object[]{"Total de Notas Fiscais cadastradas: ", ""+result1});
 		
-		result.add(""+result1);
 		
-		em.close();	
-		
-//		Média de valor das notas
-		EntityManager em2 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Double> query2 = em2.createQuery("select AVG(n.valorItens) from Nf n", Double.class);
+//		Média de valor das notas	
+		TypedQuery<Double> query2 = em.createQuery("select AVG(n.valorItens) from Nf n", Double.class);
 		Double result2 = query2.getSingleResult();
-	
-		result.add(""+result2);
+		model.addRow(new Object[]{"Média de valor das Notas: ", ""+result2});
 		
-		em2.close();
 		
-//		Média de valor dos itens das notas
-		EntityManager em3 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Double> query3 = em3.createQuery("select SUM(n.valorItens)/SUM(n.quantItens) from Nf n", Double.class);
+//		Média de valor dos itens das notas	
+		TypedQuery<Double> query3 = em.createQuery("select SUM(n.valorItens)/SUM(n.quantItens) from Nf n", Double.class);
 		Double result3 = query3.getSingleResult();
+		model.addRow(new Object[]{"Média de valor dos itens nas Notas: ", ""+result3});
 		
-		result.add(""+result3);
 		
-		em3.close();
-		
-//		Maior valor de nota
-		EntityManager em4 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Double> query4 = em4.createQuery("select MAX(n.valorItens) from Nf n", Double.class);
+//		Maior valor de nota	
+		TypedQuery<Double> query4 = em.createQuery("select MAX(n.valorItens) from Nf n", Double.class);
 		Double result4 = query4.getSingleResult();
+		model.addRow(new Object[]{"Maior valor de nota: ", ""+result4});
 		
-		result.add(""+result4);
 		
-		em4.close();
-		
-//		Estado com maior número de notas emitidas
-		EntityManager em5 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query5 = em5.createQuery("select n.emitente.estado, count(*) from Nf n GROUP by n.emitente.estado", Object[].class);
+//		Estado com maior número de notas emitidas	
+		TypedQuery<Object[]> query5 = em.createQuery("select n.emitente.estado, count(*) from Nf n GROUP by n.emitente.estado", Object[].class);
 		List<Object[]> result5 = query5.getResultList();
-		TypedQuery<Object[]> query6 = em5.createQuery("select n.destinatario.estado, count(*) from Nf n GROUP by n.destinatario.estado", Object[].class);
+		TypedQuery<Object[]> query6 = em.createQuery("select n.destinatario.estado, count(*) from Nf n GROUP by n.destinatario.estado", Object[].class);
 		List<Object[]> result6 = query6.getResultList();
 		
 		TreeMap<String, Long> resultado = new TreeMap();
@@ -156,57 +124,46 @@ public class FrameIndicadores extends JFrame{
 				resultado.put(name, quant);
 			}
 		}
+
+		model.addRow(new Object[]{"Estado com maior numero de notas emitidas*: ", ""+resultado.get(resultado.firstKey())});
+
 		
-		result.add(""+resultado.get(resultado.firstKey()));
-		
-		em5.close();
-		
-//		Estado com maior número de notas como destinatário
-		EntityManager em7 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query7 = em7.createQuery("select n.destinatario.estado, count(*) as num from Nf n GROUP by n.destinatario.estado order by num desc", Object[].class);
+//		Estado com maior número de notas como destinatário	
+		TypedQuery<Object[]> query7 = em.createQuery("select n.destinatario.estado, count(*) as num from Nf n GROUP by n.destinatario.estado order by num desc", Object[].class);
 		Object[] result7 = query7.setMaxResults(1).getSingleResult();
 		
 		String estado = ""+result7[0];
-		result.add(estado);
+		model.addRow(new Object[]{"Estado com maior numero de notas como destinatário: ", estado});
 		
-		em7.close();
 		
-//		CNPJ/Nome da empresa que é a maior compradora em volume de vendas
-		EntityManager em8 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query8 = em8.createQuery("select n.destinatario.razaoSocial, sum(n.valorItens) as soma from Nf n GROUP by n.destinatario.razaoSocial order by soma desc", Object[].class);
+//		CNPJ/Nome da empresa que é a maior compradora em volume de vendas	
+		TypedQuery<Object[]> query8 = em.createQuery("select n.destinatario.razaoSocial, sum(n.valorItens) as soma from Nf n GROUP by n.destinatario.razaoSocial order by soma desc", Object[].class);
 		Object[] result8 = query8.setMaxResults(1).getSingleResult();
 		
 		String razaoSocial = ""+result8[0];
-		result.add(razaoSocial);
+		model.addRow(new Object[]{"CNPJ/Nome da empresa que é a maior compradora em volume de vendas: ", razaoSocial});
 		
-		em8.close();
 		
-//		CNPJ/Nome da empresa que é a maior vendedora em volume de vendas
-		EntityManager em9 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Object[]> query9 = em9.createQuery("select n.emitente.razaoSocial, sum(n.valorItens) as soma from Nf n GROUP by n.emitente.razaoSocial order by soma desc", Object[].class);
+//		CNPJ/Nome da empresa que é a maior vendedora em volume de vendas	
+		TypedQuery<Object[]> query9 = em.createQuery("select n.emitente.razaoSocial, sum(n.valorItens) as soma from Nf n GROUP by n.emitente.razaoSocial order by soma desc", Object[].class);
 		Object[] result9 = query9.setMaxResults(1).getSingleResult();
 		
 		String razaoSocial2 = ""+result9[0];
-		result.add(razaoSocial2);
+		model.addRow(new Object[]{"CNPJ/Nome da empresa que é a maior vendedora em volume de vendas: ", razaoSocial2});
 		
-		em9.close();
 		
 //		Total de notas com valor superior a 10mil
-		EntityManager em10 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Long> query10 = em10.createQuery("select count(n.valorItens) from Nf n where n.valorItens > 10000", Long.class);
+		TypedQuery<Long> query10 = em.createQuery("select count(n.valorItens) from Nf n where n.valorItens > 10000", Long.class);
 		Long result10 = query10.getSingleResult();
+		model.addRow(new Object[]{"Total de notas com valor superior a 10mil: ", ""+result10});
 		
-		result.add(""+result10);
 		
-		em10.close();
-		
-//		Total de notas com mais de 10 itens
-		EntityManager em11 = Persistence.createEntityManagerFactory("notaFiscal_unit").createEntityManager();	
-		TypedQuery<Long> query11 = em11.createQuery("select count(n.quantItens) from Nf n where n.quantItens > 10", Long.class);
+//		Total de notas com mais de 10 itens	
+		TypedQuery<Long> query11 = em.createQuery("select count(n.quantItens) from Nf n where n.quantItens > 10", Long.class);
 		Long result11 = query11.getSingleResult();
+		model.addRow(new Object[]{"Total de notas com mais de 10 itens: ", ""+result11});
 		
-		result.add(""+result11);
 		
-		em11.close();
+		em.close();	
 	}
 }
