@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,6 +27,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+
+import org.hibernate.type.descriptor.java.LocalDateJavaDescriptor;
 
 import model.Item;
 import model.NotaFiscal;
@@ -99,8 +102,11 @@ public class FrameCadastroNf extends JFrame{
 		numero.setText(""+nf.getNotaFiscalNumero());
 		modelo.setText(nf.getModelo());
 		natureza.setText(nf.getNatureza());
-	    dataOperacao.setText(""+nf.getDataOperacao());
-	    dataEmissao.setText(""+nf.getDataEmissao());
+		
+		DateFormat f = DateFormat.getDateInstance();
+
+	    dataOperacao.setText(""+f.format(nf.getDataOperacao().getTime()));
+	    dataEmissao.setText(""+f.format(nf.getDataEmissao().getTime()));
 	    
 	    identificacaoEmitente.setText(nf.getEmitente().getCnpjCpf());
 		nomeEmitente.setText(nf.getEmitente().getRazaoSocial());
@@ -214,9 +220,9 @@ public class FrameCadastroNf extends JFrame{
 		JPanel cadastroPanelNf2 = new JPanel();
 		cadastroPanelNf2.setLayout(new BoxLayout(cadastroPanelNf2, BoxLayout.X_AXIS));
 //		cadastroPanelNf2.setLayout(new FlowLayout(FlowLayout.LEFT));
-		cadastroPanelNf2.add(new JLabel("   Data Operação(dd-mm-aaaa): "));
+		cadastroPanelNf2.add(new JLabel("   Data Operação(dd/mm/aaaa): "));
 		cadastroPanelNf2.add(dataOperacao);
-		cadastroPanelNf2.add(new JLabel("   Data Emissão(dd-mm-aaaa): "));
+		cadastroPanelNf2.add(new JLabel("   Data Emissão(dd/mm/aaaa): "));
 		cadastroPanelNf2.add(dataEmissao);
 		
 		
@@ -467,6 +473,18 @@ public class FrameCadastroNf extends JFrame{
 //				Existencia de pelo menos um item
 				if(modelItem.getRowCount()<1)
 					return;
+
+				Date d = dplData(dataEmissao.getText());
+				Date d2 = dplData(dataOperacao.getText());
+				
+				long a = d.getTime();
+				long b = d2.getTime();
+				
+//				432000000 = 5 dias
+				if(a >= b+432000000){
+					JOptionPane.showMessageDialog(null, "Data de Emissão não pode ser posterior 5 dias! ");
+					return;
+				}
 				
 //				Verificar a natureza das informações preenchidas
 				
@@ -548,7 +566,7 @@ public class FrameCadastroNf extends JFrame{
 		String subData = null;
 		
 		int pos0 = 0;
-		int pos = data.indexOf("-");
+		int pos = data.indexOf("/");
 		
 		while(pos != -1){
 			poss.add(new Integer(pos));
@@ -558,7 +576,7 @@ public class FrameCadastroNf extends JFrame{
 			vall.add(new Integer(subData));
 			
 			data = data.substring(pos+1);
-			pos = data.indexOf("-");
+			pos = data.indexOf("/");
 				
 		}
 		vall.add(Integer.parseInt(data));
